@@ -1,4 +1,5 @@
-package net.zhenglai.github.context
+package net.zhenglai.github
+package context
 
 object Implicits {
   class GitHubContext(val host: String) {}
