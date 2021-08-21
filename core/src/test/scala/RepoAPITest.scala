@@ -4,6 +4,7 @@ import org.scalatest.FunSuite
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import net.zhenglai.github.context.Implicits.Global
 
 class RepoAPITest extends FunSuite {
 

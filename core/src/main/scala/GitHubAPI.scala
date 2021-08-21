@@ -1,5 +1,6 @@
 package net.zhenglai.github
 
+import context.Implicits.GitHubContext
 import httpclient.AkkaHttpClient
 
 import scala.concurrent.Future
@@ -21,9 +22,11 @@ class RepoAPI {
   val http = new AkkaHttpClient()
 
   // TODO: paging
-  def listRepos(org: String): Future[List[GitHubRepo]] = {
+  def listRepos(
+      org: String
+  )(implicit ctx: GitHubContext): Future[List[GitHubRepo]] = {
     http.newRequest[List[GitHubRepo]](
-      s"https://api.github.com/orgs/$org/repos"
+      s"${ctx.host}/orgs/$org/repos"
     )
   }
 
