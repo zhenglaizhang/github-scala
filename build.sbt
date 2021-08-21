@@ -9,16 +9,17 @@ ThisBuild / idePackagePrefix := Some("net.zhenglai.github")
 lazy val commonSettings = Seq()
 
 lazy val root = (project in file("."))
+  .aggregate(util, core)
   .settings(
     name := "github-scala"
   )
-  .aggregate(util, core)
 
 lazy val util = (project in file("util"))
   .settings(
     commonSettings
   )
 lazy val core = (project in file("core"))
+  .dependsOn(util % "compile->compile;test->test")
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
