@@ -1,18 +1,26 @@
 package net.zhenglai.github
 
+import context.Implicits.Global
+
 import org.scalatest.FunSuite
 
 import scala.concurrent.Await
 import scala.concurrent.duration._
-import net.zhenglai.github.context.Implicits.Global
 
 class RepoAPITest extends FunSuite {
+  val gitHubAPI = GitHub("token")
 
   test("testListRepos") {
-    val gitHubAPI = GitHubAPI("token")
     val f = gitHubAPI.repos.listRepos("wearexteam")
     val r = Await.result(f, 10.second)
-    println(s"r = ${r}")
+    assert(r.head.name === "spire")
+//    println(s"r = ${r}")
+  }
+
+  test("testget") {
+    val f = gitHubAPI.repos.get("wearexteam", "spire")
+    val r = Await.result(f, 10.seconds)
+    println(r)
   }
 
 }

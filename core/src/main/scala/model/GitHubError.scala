@@ -1,4 +1,4 @@
 package net.zhenglai.github
 package model
 
-class GitHubError {}
+class GitHubError(msg: String) extends RuntimeException(msg) {}

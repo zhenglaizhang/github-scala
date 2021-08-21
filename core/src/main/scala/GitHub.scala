@@ -12,7 +12,7 @@ case class GitHubRepo(
     owner: Owner
 )
 
-class RepoAPI {
+class RepoAPI(implicit ctx: GitHubContext) {
   import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
   import spray.json.DefaultJsonProtocol._
 
@@ -21,10 +21,14 @@ class RepoAPI {
   implicit val gitHubRepoFormat = jsonFormat4(GitHubRepo)
   val http = new AkkaHttpClient()
 
+  def get(owner: String, repo: String): Future[GitHubRepo] = {
+    http.newRequest[GitHubRepo](uri = s"${ctx.host}/repos/$owner/$repo")
+  }
+
   // TODO: paging
   def listRepos(
       org: String
-  )(implicit ctx: GitHubContext): Future[List[GitHubRepo]] = {
+  ): Future[List[GitHubRepo]] = {
     http.newRequest[List[GitHubRepo]](
       s"${ctx.host}/orgs/$org/repos"
     )
@@ -32,12 +36,16 @@ class RepoAPI {
 
 }
 
-class GitHubAPI {
-  val repos = new RepoAPI
+object RepoAPI {
+  def apply(implicit ctx: GitHubContext) = new RepoAPI
 }
 
-object GitHubAPI {
-  def apply(token: String): GitHubAPI = new GitHubAPI
+class GitHub {
+  def repos(implicit ctx: GitHubContext) = new RepoAPI()
+}
+
+object GitHub {
+  def apply(token: String): GitHub = new GitHub
 }
 
 case class Owner(login: String, id: Long)

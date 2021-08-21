@@ -1,4 +1,7 @@
 package net.zhenglai.github
 package model
 
-class GitHubRequest {}
+trait GitHubRequest[Req] {
+  def headers: Map[String, String]
+  def param: Req
+}
