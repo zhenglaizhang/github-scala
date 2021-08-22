@@ -3,6 +3,6 @@ package model
 
 import scala.concurrent.Future
 
-trait GitHubAPI[Req, Resp] extends (Req => Future[Resp]) {
+trait GitHubAPI[Req, Resp] extends (Req => Future[GitHubResp[Resp]]) {
   def headers: Map[String, String]
 }

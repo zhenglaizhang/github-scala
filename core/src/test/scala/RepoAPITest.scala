@@ -1,6 +1,7 @@
 package net.zhenglai.github
 
 import context.Implicits.Global
+import model.GitHubResp
 
 import org.scalatest.FunSuite
 
@@ -12,19 +13,21 @@ class RepoAPITest extends FunSuite {
 
   test("testListRepos") {
     val f = gitHubAPI.repos.listRepos("wearexteam")
-    val r = Await.result(f, 10.second)
-    assert(r.head.name === "spire")
-//    println(s"r = ${r}")
+    val r: GitHubResp[List[GitHubRepo]] = Await.result(f, 10.second)
   }
 
-  test("testget") {
+  test("get returns good result") {
     val owner = "wearexteam"
     val repo = "spire"
     val f = gitHubAPI.repos.get(owner, repo)
     val r = Await.result(f, 10.seconds)
-    assert(r.owner.login == owner)
-    assert(r.name == repo)
-    println(r)
+//    assert(r.owner.login == owner)
+//    assert(r.name == repo)
+  }
+
+  test("get returns not found") {
+    val f = gitHubAPI.repos.get("wearexteam", "notexistrepo")
+    val r = Await.result(f, 10.seconds)
   }
 
 }
