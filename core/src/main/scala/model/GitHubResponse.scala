@@ -6,5 +6,5 @@ import akka.http.scaladsl.model.StatusCode
 
 trait GitHubResponse[Resp] {
   def statusCode: StatusCode
-  def resp: Either[Resp, GitHubError]
+  def resp: GitHubResp[Resp]
 }

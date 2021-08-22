@@ -18,8 +18,12 @@ class RepoAPITest extends FunSuite {
   }
 
   test("testget") {
-    val f = gitHubAPI.repos.get("wearexteam", "spire")
+    val owner = "wearexteam"
+    val repo = "spire"
+    val f = gitHubAPI.repos.get(owner, repo)
     val r = Await.result(f, 10.seconds)
+    assert(r.owner.login == owner)
+    assert(r.name == repo)
     println(r)
   }
 
