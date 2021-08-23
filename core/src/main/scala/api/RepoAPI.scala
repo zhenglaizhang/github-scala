@@ -1,12 +1,14 @@
 package net.zhenglai.github
 package api
 
-import context.Implicits.GitHubContext
-import model.{GitHubAPI, GitHubResp, Headers}
-
+import net.zhenglai.github.context.Implicits.GitHubContext
+import net.zhenglai.github.model.{GitHubAPI, GitHubResp, Headers}
 import spray.json.RootJsonFormat
 
 import scala.concurrent.Future
+
+final case class GetParam(owner: String, repo: String)
+final case class ListReposParam(owner: String)
 
 class RepoAPI(implicit gc: GitHubContext) {
   import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
@@ -15,9 +17,6 @@ class RepoAPI(implicit gc: GitHubContext) {
   implicit val gitHubRepoFormat: RootJsonFormat[GitHubRepo] = jsonFormat4(
     GitHubRepo
   )
-
-  final case class GetParam(owner: String, repo: String)
-  final case class ListReposParam(owner: String)
 
   object get extends GitHubAPI[GetParam, GitHubRepo] {
 
