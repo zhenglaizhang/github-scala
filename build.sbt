@@ -4,7 +4,7 @@ val AkkaHttpVersion = "10.2.6"
 ThisBuild / organization := "net.zhenglaizhang"
 ThisBuild / version := "0.0.1-SNAPSHOT"
 ThisBuild / scalaVersion := "2.13.6"
-ThisBuild / idePackagePrefix := Some("net.zhenglai.github")
+ThisBuild / idePackagePrefix := Some("net.zhenglai")
 
 lazy val commonSettings = Seq()
 
@@ -16,7 +16,11 @@ lazy val root = (project in file("."))
 
 lazy val util = (project in file("util"))
   .settings(
-    commonSettings
+    commonSettings,
+    libraryDependencies ++= Seq(
+      "org.typelevel" %% "cats-core" % "2.3.0",
+      "org.json4s" %% "json4s-native" % "4.0.3"
+    )
   )
 lazy val core = (project in file("core"))
   .dependsOn(util % "compile->compile;test->test")
