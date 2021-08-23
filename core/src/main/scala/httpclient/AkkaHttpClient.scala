@@ -1,14 +1,13 @@
 package net.zhenglai.github
 package httpclient
 
-import model.{GitHubError, GitHubResp}
-
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.unmarshalling.{Unmarshal, Unmarshaller}
+import net.zhenglai.github.model.{GitHubError, GitHubResp}
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
@@ -39,6 +38,8 @@ class AkkaHttpClient() extends GitHubHttpClient {
           Unmarshal(e)
             .to[GitHubError]
             .map(Left(_))
+        case _ =>
+          throw new RuntimeException("unknown response")
       }
   }
 

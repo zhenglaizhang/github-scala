@@ -1,8 +1,7 @@
 package net.zhenglai.github
 
-import context.Implicits.Global
-import model.GitHubResp
-
+import net.zhenglai.github.context.Implicits.Global
+import net.zhenglai.github.model.GitHubResp
 import org.scalatest.FunSuite
 
 import scala.concurrent.Await

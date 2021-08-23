@@ -32,6 +32,8 @@ object GitHubErrorJsonFormat extends DefaultJsonProtocol {
     jsonFormat2(InvalidRequestError)
 
   implicit object GitHubErrorJsonFormat extends RootJsonFormat[GitHubError] {
+    private val jsStringNotFound = JsString("Not Found")
+    private val jsStringBadRequest = JsString("Bad Request")
     override def write(ge: GitHubError): JsValue =
       ge match {
         case ire: InvalidRequestError => ire.toJson
@@ -41,11 +43,9 @@ object GitHubErrorJsonFormat extends DefaultJsonProtocol {
 
     override def read(json: JsValue): GitHubError =
       json match {
-        case obj: JsObject
-            if (obj.fields("message") == JsString("Not Found")) =>
+        case obj: JsObject if (jsStringNotFound == obj.fields("message")) =>
           obj.convertTo[NotFoundError]
-        case obj: JsObject
-            if (obj.fields("message") == JsString("Bad Request")) =>
+        case obj: JsObject if (jsStringBadRequest == obj.fields("message")) =>
           obj.convertTo[InvalidRequestError]
         // TODO: understand why?
 //        case obj: JsObject =>

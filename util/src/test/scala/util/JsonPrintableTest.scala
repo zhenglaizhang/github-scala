@@ -1,5 +1,5 @@
 package net.zhenglai
-package net.zhenglai.util
+package util
 
 import org.scalatest.FunSuite
 
@@ -12,15 +12,15 @@ class JsonPrintableTest extends FunSuite {
 
   test("[anyVal].json") {
     val a = 12
-    assert(a.json == "12")
+    assert(a.jsonStr === "12")
   }
 
   test("[anyRef].json") {
 
     val a = B(Seq(A(11, "11a"), A(22, "22a")), b = false)
-    println(a.json)
-//    assert(a.json == """{"a":[{"a":11,"b":"11a"},{"a":22,"b":"22a"}],"b":false}
-//                       |""".stripMargin)
+    assert(
+      a.jsonStr === """{"a":[{"a":11,"b":"11a"},{"a":22,"b":"22a"}],"b":false}"""
+    )
   }
 
 }
