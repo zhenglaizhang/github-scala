@@ -5,7 +5,7 @@ import org.json4s.native.Serialization
 import org.json4s.{Formats, NoTypeHints}
 
 // like cats.Show, render an A instance as json for AnyRef or plain for AnyVal
-sealed trait JsonPrintable[A] {
+sealed trait JsonPrintable[-A] {
   def jsonStr(a: A): String
 }
 
