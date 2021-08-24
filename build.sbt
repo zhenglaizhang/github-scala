@@ -52,4 +52,14 @@ lazy val core = (project in file("core"))
     )
   )
 
+lazy val play = (project in file("play"))
+  .settings(
+    commonSettings,
+    libraryDependencies ++= Seq(
+      "org.typelevel" %% "cats-core" % "2.6.1",
+      "org.json4s" %% "json4s-native" % "4.0.3",
+      "org.scalatest" %% "scalatest" % "3.0.8" % Test
+    )
+  )
+
 lazy val hello = taskKey[Unit]("An example task")
