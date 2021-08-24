@@ -53,6 +53,7 @@ lazy val core = (project in file("core"))
   )
 
 lazy val play = (project in file("play"))
+  .dependsOn(util % "compile->compile;test->test")
   .settings(
     commonSettings,
     libraryDependencies ++= Seq(
