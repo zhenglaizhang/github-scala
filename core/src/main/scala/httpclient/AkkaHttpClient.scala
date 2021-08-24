@@ -7,7 +7,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.unmarshalling.{Unmarshal, Unmarshaller}
-import net.zhenglai.github.model.{GitHubError, GitHubResp}
+import net.zhenglai.github.model.GitHubResp
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
@@ -18,16 +18,15 @@ class AkkaHttpClient() extends GitHubHttpClient {
   implicit val ec = system.executionContext
 
   def run[Resp](req: HttpRequest)(implicit
-      um: Unmarshaller[ResponseEntity, Resp],
-      um2: Unmarshaller[ResponseEntity, GitHubError]
+      um: Unmarshaller[ResponseEntity, GitHubResp[Resp]]
   ): Future[GitHubResp[Resp]] = {
     Http()
       .singleRequest(request = req)
       .flatMap {
         case HttpResponse(StatusCodes.OK, _, entity, _) =>
           Unmarshal(entity)
-            .to[Resp]
-            .map(Right(_): GitHubResp[Resp])
+            .to[GitHubResp[Resp]]
+//            .map(Right(_): GitHubResp[Resp])
         case HttpResponse(status, headers, e, _) =>
           println(s"bad github response: $status")
           println(s"\tstatus: $status")
@@ -36,8 +35,8 @@ class AkkaHttpClient() extends GitHubHttpClient {
             s"\tbody: ${Await.result(e.toStrict(1.second), 2.seconds).data.utf8String}"
           )
           Unmarshal(e)
-            .to[GitHubError]
-            .map(Left(_))
+            .to[GitHubResp[Resp]]
+//            .map(Left(_))
         case _ =>
           throw new RuntimeException("unknown response")
       }

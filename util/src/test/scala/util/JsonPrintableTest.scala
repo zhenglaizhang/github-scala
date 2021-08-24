@@ -2,13 +2,12 @@ package net.zhenglai
 package util
 
 import org.scalatest.FunSuite
+final case class A(a: Int, b: String)
+final case class B(a: Seq[A], b: Boolean)
 
 class JsonPrintableTest extends FunSuite {
   import JsonPrintableInstances._
   import JsonPrintableSyntax._
-
-  final case class A(a: Int, b: String)
-  final case class B(a: Seq[A], b: Boolean)
 
   test("[anyVal].json") {
     val a = 12

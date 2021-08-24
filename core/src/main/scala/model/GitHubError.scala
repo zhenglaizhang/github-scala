@@ -1,5 +1,5 @@
-package net.zhenglai.github
-package model
+package net.zhenglai
+package github.model
 
 import spray.json.{
   DefaultJsonProtocol,
