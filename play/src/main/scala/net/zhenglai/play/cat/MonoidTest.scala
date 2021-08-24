@@ -1,5 +1,8 @@
 package net.zhenglai.play.cat
 
+import net.zhenglai.cat.instances.MonoidOps.addAll
+import net.zhenglai.util.Cool.Debuggable
+
 object MonoidTest {
   // import cats._
   // import cats.implicits._
@@ -8,29 +11,27 @@ object MonoidTest {
   import cats.instances.option._
   import cats.instances.string._
   def main(args: Array[String]): Unit = {
-    println(Monoid[String].combine("x", "y"))
-    println(Monoid[String].empty)
-    println(Monoid[Int].combine(1, 2))
+    (Monoid[String].combine("x", "y")).p()
+    (Monoid[String].empty).p()
+    (Monoid[Int].combine(1, 2)).p()
 
-    println(Monoid[Option[Int]].combine(Some(1), Some(2))) // Some(3)
-    println(Monoid[Option[Int]].combine(Some(1), None)) // Some(1)
-    println(Monoid[Option[Int]].combine(None, None)) // None
+    (Monoid[Option[Int]].combine(Some(1), Some(2))).p() // Some(3)
+    (Monoid[Option[Int]].combine(Some(1), None)).p() // Some(1)
+    (Monoid[Option[Int]].combine(None, None)).p() // None
 
     import cats.syntax.semigroup._
-    println(("Hi" |+| "there" |+| Monoid[String].empty))
-    println(1 |+| 2 |+| Monoid[Int].empty)
+    (("Hi" |+| "there" |+| Monoid[String].empty)).p()
+    (1 |+| 2 |+| Monoid[Int].empty).p()
     val map1 = Map("a" -> 1, "b" -> 2)
     val map2 = Map("b" -> 3, "c" -> 2)
-    println(map1 |+| map2)
+    (map1 |+| map2).p()
 
     import cats.instances.tuple._
     val tup1 = ("hello", 12, 12)
     val tup2 = ("world", 124, 13)
-    println(tup1 |+| tup2)
-
-    import net.zhenglai.cat.instances.MonoidOps._
-    println(addAll(List(None, Some(1), Some(2))))
-    println(addAll(List(1, 2, 3, 4)))
+    (tup1 |+| tup2).p()
+    addAll(List(None, Some(1), Some(2))).p()
+    addAll(List(1, 2, 3, 4)).p()
   }
 }
 
