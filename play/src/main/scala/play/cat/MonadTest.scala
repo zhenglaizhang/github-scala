@@ -28,13 +28,28 @@ object MonadTest {
       ans <- if (b == 0) None else Some(a / b)
     } yield ans
 
-  import cats.Monad
   import cats.instances.option._
+  import cats.syntax.applicative._
+  import cats.syntax.flatMap._
+  import cats.syntax.functor._
+  import cats.{Id, Monad}
   def main(args: Array[String]): Unit = {
     val o1 = Monad[Option].pure(3)
     val o2 = Monad[Option].flatMap(o1)(a => Some(a + 2))
     val o3 = Monad[Option].flatMap(o2)(a => Some(100 * a))
     println(o3)
+
+    1.pure[Option]
+    1.pure[List]
+    1.pure[Id]
+
+    val a = Monad[Id].pure(4)
+    val b = Monad[Id].flatMap(a)(_ + 1)
+    val c = for {
+      x <- a
+      y <- b
+    } yield a + b
+    println(c)
   }
 
 }
