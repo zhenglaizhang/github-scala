@@ -10,11 +10,11 @@ object MonadDef {
     def flatMap[A, B](a: F[A])(f: A => F[B]): F[B]
   }
 
-  trait Applicative[F[_]] {
+  trait Applicative[F[_]] extends Functor[F] {
     def pure[A](a: A): F[A]
   }
 
-  trait Monad[F[_]] extends Functor[F] with FlatMap[F] with Applicative[F] {
+  trait Monad[F[_]] extends FlatMap[F] with Applicative[F] {
     def map[A, B](a: F[A])(f: A => B): F[B] =
       flatMap(a)(f.andThen(pure))
   }
@@ -33,7 +33,7 @@ object MonadTest {
   def main(args: Array[String]): Unit = {
     val o1 = Monad[Option].pure(3)
     val o2 = Monad[Option].flatMap(o1)(a => Some(a + 2))
-    val o3 = Monad[Option].flatMap(o2)(a => 100 * a)
+    val o3 = Monad[Option].flatMap(o2)(a => Some(100 * a))
     println(o3)
   }
 
