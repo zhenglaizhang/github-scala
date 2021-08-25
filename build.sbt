@@ -16,7 +16,8 @@ lazy val commonScalacOptions = Seq(
   "-language:postfixOps",
   "-Ywarn-dead-code",
   "-Xfatal-warnings",
-  "-Xlint"
+  "-Xlint",
+  "-Ymacro-annotations" // only available for Scala 2.13
 )
 
 lazy val commonSettings = Seq(
@@ -36,6 +37,8 @@ lazy val util = (project in file("util"))
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % "2.6.1",
       "org.json4s" %% "json4s-native" % "4.0.3",
+      "dev.optics" %% "monocle-core" % "3.0.0",
+      "dev.optics" %% "monocle-macro" % "3.0.0", // only for Scala 2.13
       "org.scalatest" %% "scalatest" % "3.0.8" % Test
     )
   )
