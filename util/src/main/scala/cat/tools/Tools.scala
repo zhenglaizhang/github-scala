@@ -24,4 +24,11 @@ object Tools {
   def sumSquare2[F[_]: Monad](a: F[Int], b: F[Int]): F[Int] =
     a.flatMap(x => b.map(y => x * x + y * y))
 
+  import cats.syntax.either._
+  def countPositive(nums: List[Int]): Either[String, Int] =
+    nums.foldLeft(0.asRight[String]) { (acc, num) =>
+      if (num > 0) acc.map(_ + 1)
+      else Left("Negative, stopping!")
+    }
+
 }

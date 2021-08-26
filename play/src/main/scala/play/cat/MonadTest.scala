@@ -1,6 +1,12 @@
 package net.zhenglai
 package play.cat
 
+import cats.MonadError
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
+import scala.util.Try
+
 object MonadDef {
   trait Functor[F[_]] {
     def map[A, B](a: F[A])(f: A => B): F[B]
@@ -18,6 +24,82 @@ object MonadDef {
     def map[A, B](a: F[A])(f: A => B): F[B] =
       flatMap(a)(f.andThen(pure))
   }
+
+  trait ApplicativeError[F[_], B] extends Applicative[F]
+
+  trait MonadError[F[_], E] extends Applicative[F] {
+    def raiseError[A](e: E): F[A]
+    def handleErrorWith[A](fa: F[A])(f: E => F[A]): F[A]
+    def handleError[A](fa: F[A])(f: E => A): F[A]
+    def ensure[A](fa: F[A])(e: E)(f: A => Boolean): F[A]
+  }
+}
+
+object MonadErrorTest {
+  def main(args: Array[String]): Unit = {
+    // MonadError[Either, A]
+    type ErrorOr[A] = Either[String, A]
+    val monadError = MonadError[ErrorOr, String]
+    val success = monadError.pure(1)
+    monadError.raiseError("badness")
+    monadError.ensure(success)("number too low")(_ > 100)
+    import cats.syntax.applicative._
+    import cats.syntax.applicativeError._
+    1.pure[ErrorOr]
+    "badness".raiseError[ErrorOr, Int]
+
+    import cats.syntax.monadError._
+    success.ensure("Number too low!")(_ > 10)
+
+    // MonadError[Try, A]
+    import cats.instances.try_._
+    val exn: Throwable = new RuntimeException("boom")
+    exn.raiseError[Try, Int]
+
+    // MonadError[Future, A]
+    exn.raiseError[Future, Int]
+  }
+}
+
+object EitherRightBiased {
+  def main(args: Array[String]): Unit = {
+    val e1: Either[String, Int] = Right(10)
+    val e2: Either[String, Int] = Right(11)
+//    val c1 = for {
+//      a <- e1.right // deprecated
+//      b <- e2.right
+//    } yield a + b
+    val c2 = for {
+      a <- e1
+      b <- e2
+    } yield a + b
+    println(c2)
+//    assert(c1 == c2)
+
+    import cats.syntax.either._
+    "Error".asLeft[Int].getOrElse(0)
+    "Error".asLeft[Int].orElse(2.asRight[String])
+    "error".asLeft[Int].recover {
+      case _: String => -1
+    }
+    "error".asLeft[Int].recoverWith {
+      case _: String => Right(-1)
+    }
+    "foo".asLeft[Int].leftMap(_.reverse)
+    println(6.asRight[String].bimap(_.reverse, _ * 7))
+    println("foo".asLeft[String].bimap(_.reverse, _ * 7))
+
+    123.asRight[String].swap
+
+    1.asRight[String].fold(identity, _.toString)
+
+    Either.catchOnly[NumberFormatException]("foo".toInt)
+    Either.catchNonFatal(sys.error("badness"))
+    Either.fromTry(Try("foo".toInt))
+    Either.fromOption[String, Int](None, "badness")
+    Either.unit
+  }
+
 }
 
 object MonadTest {
