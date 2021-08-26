@@ -1,6 +1,7 @@
 package net.zhenglai
 
 import cats.MonadError
+import cats.data.Writer
 import cats.implicits._
 
 package object types {
@@ -14,4 +15,6 @@ package object types {
   // Better to define ADT for errors in domain
   type ErrorOr[A] = Either[String, A]
   val monadError = MonadError[ErrorOr, String]
+
+  type Logged[A] = Writer[Vector[String], A]
 }
