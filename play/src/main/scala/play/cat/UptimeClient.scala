@@ -34,6 +34,7 @@ import cats.syntax.functor._
 import cats.syntax.traverse._
 class UptimeService[F[_]: Applicative](uptimeClient: UptimeClient[F]) {
   def getTotalUptime(hostnames: List[String]): F[Int] = {
+    // TODO where traverse come from?
     hostnames.traverse(uptimeClient.getUpTime).map(_.sum)
   }
 }
