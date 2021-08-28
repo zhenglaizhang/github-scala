@@ -4,7 +4,7 @@ package util
 import cats.syntax.flatMap._
 import cats.syntax.functor._
 import cats.syntax.semigroup._
-import cats.{Monad, Monoid}
+import cats.{Monad, Monoid, Semigroupal}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -33,6 +33,7 @@ object Cool {
   def parallelFoldMap[A, B: Monoid](
       xs: Vector[A]
   )(func: A => B): Future[B] = {
+    Semigroupal
     import cats.instances.vector._
     import cats.syntax.foldable._
     import cats.syntax.traverse._
