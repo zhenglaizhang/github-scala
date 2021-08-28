@@ -4,7 +4,6 @@ val AkkaHttpVersion = "10.2.6"
 ThisBuild / organization := "net.zhenglaizhang"
 ThisBuild / version := "0.0.1-SNAPSHOT"
 ThisBuild / scalaVersion := "2.13.6"
-//ThisBuild / idePackagePrefix := Some("net.zhenglai")
 
 lazy val commonScalacOptions = Seq(
   "-unchecked",
@@ -15,7 +14,7 @@ lazy val commonScalacOptions = Seq(
   "-language:implicitConversions",
   "-language:postfixOps",
   "-Ywarn-dead-code",
-  "-Xfatal-warnings",
+//  "-Xfatal-warnings",
   "-Xlint",
   "-Ymacro-annotations" // only available for Scala 2.13
 )
