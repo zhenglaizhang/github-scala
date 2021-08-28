@@ -34,7 +34,9 @@ class CoolTest extends FunSuite {
 
   test("parallelFoldMap") {
     val x: Future[String] =
-      parallelFoldMap(('a' to 'z').map(_.toString))(x => x + x + x + "\n")
+      parallelFoldMap(('a' to 'z').toVector.map(_.toString))(x =>
+        x + x + x + "\n"
+      )
     val y = Await.result(x, 1.second)
     println(y)
   }

@@ -31,12 +31,16 @@ object Cool {
     xs.foldLeft(Monoid[B].empty)(_ |+| func(_))
 
   def parallelFoldMap[A, B: Monoid](
-      xs: IndexedSeq[A]
+      xs: Vector[A]
   )(func: A => B): Future[B] = {
-    val numBatches = Runtime.getRuntime.availableProcessors()
-    val groups = xs.grouped(numBatches)
-    Future
-      .traverse(groups)(x => Future(foldMap(x)(func)))
-      .map(x => foldMap(x.toSeq)(identity))
+    import cats.instances.vector._
+    import cats.syntax.foldable._
+    import cats.syntax.traverse._
+    val numCores = Runtime.getRuntime.availableProcessors()
+    val groupSize = (1.0 * xs.size / numCores).ceil.toInt
+    xs.grouped(groupSize)
+      .toVector
+      .traverse(group => Future(group.foldMap(func)))
+      .map(_.combineAll)
   }
 }
