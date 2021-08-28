@@ -10,4 +10,6 @@ object Cool {
     def pipe[B](f: A => B): B = f(a)
     def |>[B](f: A => B): B = pipe(f)
   }
+
+  def foldMap[A, B](xs: Seq[A])(f: A => B): B = ???
 }
