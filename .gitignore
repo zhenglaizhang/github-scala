@@ -97,3 +97,6 @@ project/plugins/project/
 project/metals.sbt
 
 .bsp
+.idea
+.vscode
+.java-version
