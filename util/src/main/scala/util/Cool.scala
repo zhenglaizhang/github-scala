@@ -1,9 +1,13 @@
 package net.zhenglai
 package util
 
-import cats.Monad
 import cats.syntax.flatMap._
 import cats.syntax.functor._
+import cats.syntax.semigroup._
+import cats.{Monad, Monoid}
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 object Cool {
   implicit class Debuggable[A](a: A) {
@@ -21,5 +25,18 @@ object Cool {
       y <- xs2
     } yield x + y
 
-  def foldMap[A, B](xs: Seq[A])(f: A => B): B = ???
+  def foldMap[A, B: Monoid](xs: Seq[A])(func: A => B): B =
+    // xs.map(f).foldLeft(Monoid[B].empty)(Monoid[B].combine)
+    // xs.map(f).foldLeft(Monoid[B].empty)(_ |+| _)
+    xs.foldLeft(Monoid[B].empty)(_ |+| func(_))
+
+  def parallelFoldMap[A, B: Monoid](
+      xs: IndexedSeq[A]
+  )(func: A => B): Future[B] = {
+    val numBatches = Runtime.getRuntime.availableProcessors()
+    val groups = xs.grouped(numBatches)
+    Future
+      .traverse(groups)(x => Future(foldMap(x)(func)))
+      .map(x => foldMap(x.toSeq)(identity))
+  }
 }

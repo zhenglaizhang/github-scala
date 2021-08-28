@@ -1,10 +1,13 @@
 package net.zhenglai
 package util
 
-import util.Cool.{FunChainable, concatString}
+import util.Cool.{FunChainable, concatString, parallelFoldMap}
 
 import cats.Id
 import org.scalatest.FunSuite
+import org.scalatest.time.SpanSugar.convertIntToGrainOfTime
+
+import scala.concurrent.{Await, Future}
 
 class CoolTest extends FunSuite {
 
@@ -27,6 +30,13 @@ class CoolTest extends FunSuite {
       )
     )
     assert(concatString("123": Id[String], "abc": Id[String]) === "123abc")
+  }
+
+  test("parallelFoldMap") {
+    val x: Future[String] =
+      parallelFoldMap(('a' to 'z').map(_.toString))(x => x + x + x + "\n")
+    val y = Await.result(x, 1.second)
+    println(y)
   }
 
 }
