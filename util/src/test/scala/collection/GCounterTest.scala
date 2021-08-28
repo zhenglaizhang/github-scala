@@ -6,6 +6,7 @@ import org.scalatest.FunSuite
 class GCounterTest extends FunSuite {
 
   test("testMerge") {
+    import InitiaVersion._
     val gc1 = new GCounter[Int]()
       .increment("m1", 1)
       .increment("m2", 2)
