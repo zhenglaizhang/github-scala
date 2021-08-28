@@ -32,9 +32,7 @@ class MockUptimeClient(hostnames: Map[String, Int]) extends TestUptimeClient {
 
 import cats.syntax.functor._
 import cats.syntax.traverse._
-class UptimeService[F[_]](uptimeClient: UptimeClient[F])(implicit
-    ap: Applicative[F]
-) {
+class UptimeService[F[_]: Applicative](uptimeClient: UptimeClient[F]) {
   def getTotalUptime(hostnames: List[String]): F[Int] = {
     hostnames.traverse(uptimeClient.getUpTime).map(_.sum)
   }
