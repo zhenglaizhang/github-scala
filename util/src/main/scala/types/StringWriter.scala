@@ -6,7 +6,8 @@ abstract class StringWriter {
 }
 
 class BasicStringWriter extends StringWriter {
-  override def write(data: String): String = data
+  override def write(data: String): String =
+    s"Writing the following data: ${data}"
 }
 
 trait CapitalizingStringWriter extends StringWriter {
