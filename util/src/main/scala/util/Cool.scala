@@ -25,6 +25,18 @@ object Cool {
       y <- xs2
     } yield x + y
 
+  def balancedFold[A, B](xs: IndexedSeq[A])(fn: A ⇒ B)(implicit
+      m: Monoid[B]
+  ): B = {
+    if (xs.isEmpty) { m.empty }
+    else if (xs.length == 1) {
+      fn(xs.head)
+    } else {
+      val (l, r) = xs.splitAt(xs.length / 2)
+      m.combine(balancedFold(l)(fn), balancedFold(r)(fn))
+    }
+  }
+
   def foldMap[A, B: Monoid](xs: Seq[A])(func: A => B): B =
     // xs.map(f).foldLeft(Monoid[B].empty)(Monoid[B].combine)
     // xs.map(f).foldLeft(Monoid[B].empty)(_ |+| _)

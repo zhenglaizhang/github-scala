@@ -17,4 +17,13 @@ package object types {
   val monadError = MonadError[ErrorOr, String]
 
   type Logged[A] = Writer[Vector[String], A]
+
+  // PIMP pattern
+  implicit class StringExtension(val s: String) extends AnyVal {
+    def isAllUpperCase: Boolean = s.forall(_.isUpper)
+  }
+
+  implicit class IterableExtension[A](val xs: Iterable[A]) extends AnyVal {
+    def saveToDatabase(): Unit = println("save to db")
+  }
 }

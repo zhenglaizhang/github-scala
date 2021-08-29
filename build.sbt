@@ -54,6 +54,26 @@ lazy val core = (project in file("core"))
     )
   )
 
+lazy val service = (project in file("service"))
+  .dependsOn(core % "compile->compile;test->test")
+  .settings(
+    commonSettings,
+    libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
+      "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+      "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+      "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
+      "org.scalatest" %% "scalatest" % "3.0.8" % Test,
+      "org.scalatestplus" %% "mockito-3-4" % "3.2.9.0" % Test
+    )
+  )
+
+lazy val rtbCore = (project in file("rtb/core"))
+  .dependsOn(util)
+  .settings(
+    commonSettings
+  )
+
 lazy val play = (project in file("play"))
   .dependsOn(util % "compile->compile;test->test")
   .settings(
