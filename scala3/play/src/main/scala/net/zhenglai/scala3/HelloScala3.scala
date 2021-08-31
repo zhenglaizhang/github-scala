@@ -3,7 +3,7 @@ package net.zhenglai.scala3
 enum Message:
   case Draw(shape: Shape)
   case Response(message: String)
-  case object Exit
+  case Exit
 
 enum Shape:
   case Circle, Rectangle
@@ -14,6 +14,12 @@ object Point:
 
 
 class Wow() {}
+
+@main def rangeTest() : Unit = {
+  10 to 1 by -3
+  1L to 10L by 3
+  ('a' to 'g' by 3).foreach(println) //
+}
 
 
 @main def outmostMain(params: String*): Unit = params.foreach(println)
@@ -30,6 +36,7 @@ class Wow() {}
 object HelloScala3 {
 
   def enumMatch = {
+    import Message.*
     val m: Message = ???
     m match {
       case Draw(s) => println(s)
