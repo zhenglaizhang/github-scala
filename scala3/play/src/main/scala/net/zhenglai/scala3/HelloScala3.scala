@@ -10,8 +10,18 @@ enum Shape:
 
 
 object Point:
-  def apply(x: Int, y: Int) = ???
+  def apply(x: Int = 0, y: Int = 0) = ???
 
+
+def pf(): Unit = {
+  val pfs: PartialFunction[Matchable, String] =
+    case s: String => "STR"
+  val pfd: PartialFunction[Matchable, String] =
+    case d: Double => "DOU"
+  val pf = pfs.orElse(pfd)
+  val fs = pfs.lift
+  val pfs2 = fs.unlift
+}
 
 class Wow() {}
 
