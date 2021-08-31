@@ -1,7 +1,6 @@
 package net.zhenglai.adx.model
 
-import jdk.vm.ci.code.site.Site
-import net.zhenglai.util.login.User
+import cats.data.NonEmptyList
 
 final case class AdRequest()
 final case class AdResponse()
@@ -9,10 +8,11 @@ final case class AdResponse()
 final case class BidRequest(
     site: Site,
     content: Content,
-    user: User,
-    device: Device,
-    location: Location,
-    impressions: Seq[Impression]
+    user: Option[User],
+    device: Option[Device],
+    regs: Seq[Regs],
+    source: Seq[Source],
+    impressions: NonEmptyList[Impression] // only this is technically required
 )
 final case class BidResponse(
     bid: Bid,
@@ -27,9 +27,18 @@ final case class Markup()
 
 final case class LossNotice()
 
-case class Content()
+case class Content(
+    segments: Seq[Segment]
+)
 
-case class Device()
+case class Device(geo: Option[Geo])
+case class Geo()
+
+case class Site()
+
+case class User(geo: Option[Geo], data: Option[Data])
+case class Data(segments: Seq[Segment])
+case class Segment()
 
 case class Location()
 
@@ -42,12 +51,33 @@ case class Impression(
     banner: Option[Banner],
     video: Option[Video],
     audio: Option[Audio],
+    metric: Option[Metric],
     pmp: Option[Pmp]
 )
 
+case class Metric()
 case class Native()
-case class Banner()
-case class Video()
-case class Audio()
-case class Pmp(deal: Option[Deal])
+case class Banner(formats: Seq[Format])
+case class Format()
+
+/**
+  * details for video impression
+  */
+case class Video(
+    banners: Seq[Banner]
+)
+
+/**
+  *  Container for audio impression
+  */
+case class Audio(
+    banners: Seq[Banner]
+)
+case class Pmp(deal: Seq[Deal])
 case class Deal()
+
+case class Regs()
+case class Source()
+
+case class DistributionChannel(
+)
