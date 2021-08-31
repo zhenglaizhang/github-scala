@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "c_name": "zhang san",
+    "height": 175,
+    "money": 12.12,
+    "hair_color": "black"
+  },
+  {
+    "id": 1,
+    "c_name": "li si",
+    "height": 180,
+    "money": 11.12,
+    "hair_color": "yellow"
+  }
+]

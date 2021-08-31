@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "c_name": "zhang san",
+  "height": 175,
+  "money": 12.12,
+  "hair_color": "black",
+  "nose": "big",
+  "fav_fruit": ["apple","bananas"]
+}
