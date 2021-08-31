@@ -22,7 +22,7 @@ def commonScalacOpts(scalaVersion: String) =
   ) ++ (CrossVersion.partialVersion(scalaVersion) match {
     case Some((3, _)) =>
       Seq(
-        "-unchecked"
+        // "-unchecked"
         // "-source:3.0-migration"
       )
     case _ =>
