@@ -1,5 +1,10 @@
 package net.zhenglai.scala3
 
+enum Message:
+  case Draw(shape: Shape)
+  case Response(message: String)
+  case object Exit
+
 enum Shape:
   case Circle, Rectangle
 
@@ -23,6 +28,16 @@ class Wow() {}
 }
 
 object HelloScala3 {
+
+  def enumMatch = {
+    val m: Message = ???
+    m match {
+      case Draw(s) => println(s)
+      case Response(m) => println(m)
+      case Exit => println(Exit)
+    }
+  }
+
   def main(args : Array[String]) : Unit = {
     // Array in scala is mutable
     args(1) = "abc"
