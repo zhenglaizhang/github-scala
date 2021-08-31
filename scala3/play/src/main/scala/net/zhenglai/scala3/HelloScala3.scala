@@ -8,9 +8,15 @@ object Point:
   def apply(x: Int, y: Int) = ???
 
 
+class Wow() {}
+
+
 @main def outmostMain(params: String*): Unit = params.foreach(println)
 
 @main def withArgs(a: String, b: Int, c: Boolean) = {
+  import Shape.* // new wirdcard, replaces `_`
+  println(Circle)
+  println(Wow()) // no `new`
   println(a)
   println(b)
   println(c)
