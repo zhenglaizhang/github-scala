@@ -11,6 +11,14 @@ import scala.concurrent.{Await, Future}
 
 class CoolTest extends FunSuite {
 
+  test("intsToString") {
+    def printAsciiString(s: String): Unit = {
+      System.out.println(s)
+    }
+    import Cool.intsToString
+    printAsciiString(List(72, 69, 76, 76, 79, 33))
+  }
+
   test("testFunChainable") {
     def f1(a: Int): String = a.toString
     def f2(a: String): Option[Char] = a.headOption

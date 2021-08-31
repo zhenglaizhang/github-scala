@@ -10,6 +10,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object Cool {
+  implicit def intsToString(xs: List[Int]): String =
+    xs.map(_.toChar).mkString
+
   implicit class Debuggable[A](a: A) {
     def p(): Unit = println(a)
   }
