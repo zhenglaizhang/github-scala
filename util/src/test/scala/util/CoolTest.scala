@@ -26,8 +26,8 @@ class CoolTest extends FunSuite {
     val r = 12 |> f1 |> f2 |> f3
     assert(r == Option(49))
 
-    val m1 = Map("a" → 1)
-    val m2 = Map("a" → 2)
+    val m1 = Map("a" -> 1)
+    val m2 = Map("a" -> 2)
     println(m1 ++ m2) // Map("a" -> 2)
     println(m2 ++ m1) // Map("a" -> 1)
   }

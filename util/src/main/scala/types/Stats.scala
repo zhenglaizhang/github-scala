@@ -14,7 +14,7 @@ object Stats {
 
   def variance[A: Number](xs: Vector[A]): A = {
     val m = mean(xs)
-    val sqDiff = xs.map { x ⇒
+    val sqDiff = xs.map { x =>
       val diff = implicitly[Number[A]].minus(x, m)
       implicitly[Number[A]].multiply(diff, diff)
     }

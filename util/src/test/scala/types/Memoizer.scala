@@ -6,6 +6,6 @@ import scala.collection.mutable
 trait Memoizer {
   def memo[A, B](f: A => B): (A => B) = {
     val cache = mutable.Map[A, B]()
-    (a: A) ⇒ cache.getOrElseUpdate(a, f(a))
+    (a: A) => cache.getOrElseUpdate(a, f(a))
   }
 }
