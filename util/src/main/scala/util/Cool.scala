@@ -59,4 +59,14 @@ object Cool {
       .traverse(group => Future(group.foldMap(func)))
       .map(_.combineAll)
   }
+
+  def stackDepth: Int = Thread.currentThread().getStackTrace.length
+
+  def loopM[M[_]: Monad](m: M[Int], count: Int): M[Int] = {
+    println(s"Stack depth: $stackDepth")
+    count match {
+      case 0 => m
+      case n => m.flatMap { _ => loopM(m, n - 1) }
+    }
+  }
 }
