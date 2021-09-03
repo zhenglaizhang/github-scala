@@ -28,7 +28,7 @@ object Cool {
       y <- xs2
     } yield x + y
 
-  def balancedFold[A, B](xs: IndexedSeq[A])(fn: A ⇒ B)(implicit
+  def balancedFold[A, B](xs: IndexedSeq[A])(fn: A => B)(implicit
       m: Monoid[B]
   ): B = {
     if (xs.isEmpty) { m.empty }

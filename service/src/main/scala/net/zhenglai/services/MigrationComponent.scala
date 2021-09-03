@@ -1,6 +1,6 @@
 package net.zhenglai.services
 
-trait MigrationComponent { this: DatabaseComponent ⇒
+trait MigrationComponent { this: DatabaseComponent =>
   val migrationService: MigrationService
 
   class MigrationService() {

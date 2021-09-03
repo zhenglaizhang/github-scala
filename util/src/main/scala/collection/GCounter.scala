@@ -34,7 +34,7 @@ object GCounter {
           m: CommutativeMonoid[V]
       ): Map[K, V] = {
         val total = map.getOrElse(k, m.empty) |+| v
-        map + (k → total)
+        map + (k -> total)
       }
 
       override def merge(f1: Map[K, V], f2: Map[K, V])(implicit
@@ -55,11 +55,9 @@ object InitiaVersion {
         ev: CommutativeMonoid[A]
     ): GCounter[A] = {
       val v = amount |+| counters.getOrElse(machine, ev.empty)
-      GCounter(counters + (machine → v))
+      GCounter(counters + (machine -> v))
     }
-    def merge(that: GCounter[A])(implicit
-        ev: BoundedSemiLattice[A]
-    ): GCounter[A] =
+    def merge(that: GCounter[A]): GCounter[A] =
       GCounter(this.counters ++ that.counters)
     def total(implicit
         ev: CommutativeMonoid[A]

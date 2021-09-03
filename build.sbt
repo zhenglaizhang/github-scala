@@ -3,26 +3,46 @@ val AkkaHttpVersion = "10.2.6"
 
 ThisBuild / organization := "net.zhenglaizhang"
 ThisBuild / version := "0.0.1-SNAPSHOT"
-ThisBuild / scalaVersion := "2.13.6"
+//ThisBuild / scalaVersion := "2.13.6"
+lazy val scala2Version = "2.13.6"
+lazy val scala3Version = "3.0.1"
 
-lazy val commonScalacOptions = Seq(
-  "-unchecked",
-  "-deprecation",
-  "-feature",
-  "-language:existentials",
-  "-language:higherKinds",
-  "-language:implicitConversions",
-  "-language:postfixOps",
-  "-Ywarn-dead-code",
-//  "-Xfatal-warnings",
-  "-Xlint",
-  "-Ymacro-annotations" // only available for Scala 2.13
-)
+def commonScalacOpts(scalaVersion: String) =
+  Seq(
+//    "-encoding",
+//    "UTF-8",
+    "-unchecked",
+    "-deprecation",
+    "-feature",
+    "-language:existentials",
+    "-language:higherKinds",
+    "-language:implicitConversions",
+    "-language:postfixOps",
+    "-Xfatal-warnings"
+  ) ++ (CrossVersion.partialVersion(scalaVersion) match {
+    case Some((3, _)) =>
+      Seq(
+        // "-unchecked"
+        // "-source:3.0-migration"
+      )
+    case _ =>
+      Seq(
+        "-Ymacro-annotations",
+        "-deprecation",
+        "-Ywarn-dead-code",
+        "-Xlint",
+        "-Xfatal-warnings",
+        "-Wunused:imports,privates,locals",
+        "-Wvalue-discard"
+      )
+  })
 
-lazy val commonSettings = Seq(
-  scalacOptions := commonScalacOptions,
-  idePackagePrefix := Some("net.zhenglai")
-)
+def commonSettings(scalaV: String) =
+  Seq(
+    scalaVersion := scalaV,
+    scalacOptions := commonScalacOpts(scalaV),
+    idePackagePrefix := Some("net.zhenglai")
+  )
 
 lazy val root = (project in file("."))
   .aggregate(util, core)
@@ -32,7 +52,7 @@ lazy val root = (project in file("."))
 
 lazy val util = (project in file("util"))
   .settings(
-    commonSettings,
+    commonSettings(scala2Version),
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % "2.6.1",
       "org.json4s" %% "json4s-native" % "4.0.3",
@@ -44,7 +64,7 @@ lazy val util = (project in file("util"))
 lazy val core = (project in file("core"))
   .dependsOn(util % "compile->compile;test->test")
   .settings(
-    commonSettings,
+    commonSettings(scala2Version),
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
       "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
@@ -57,7 +77,7 @@ lazy val core = (project in file("core"))
 lazy val service = (project in file("service"))
   .dependsOn(core % "compile->compile;test->test")
   .settings(
-    commonSettings,
+    commonSettings(scala2Version),
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
       "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
@@ -71,13 +91,13 @@ lazy val service = (project in file("service"))
 lazy val rtbCore = (project in file("rtb/core"))
   .dependsOn(util)
   .settings(
-    commonSettings
+    commonSettings(scala2Version)
   )
 
 lazy val play = (project in file("play"))
   .dependsOn(util % "compile->compile;test->test")
   .settings(
-    commonSettings,
+    commonSettings(scala2Version),
     libraryDependencies ++= Seq(
       "org.typelevel" %% "cats-core" % "2.6.1",
       "org.json4s" %% "json4s-native" % "4.0.3",
@@ -85,6 +105,14 @@ lazy val play = (project in file("play"))
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.4",
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.12.4"
 
+    )
+  )
+
+lazy val scala3Play = (project in file("scala3/play"))
+  .dependsOn(util % "compile->compile;test->test")
+  .settings(
+    commonSettings(scala3Version),
+    libraryDependencies ++= Seq(
     )
   )
 
