@@ -1,7 +1,13 @@
 package net.zhenglai
 package util
 
-import util.Cool.{FunChainable, concatString, loopM, parallelFoldMap}
+import util.Cool.{
+  FunChainable,
+  concatString,
+  insertionSort,
+  loopM,
+  parallelFoldMap
+}
 
 import cats.{Eval, Id}
 import org.scalatest.FunSuite
@@ -66,4 +72,8 @@ class CoolTest extends FunSuite {
     println(y)
   }
 
+  test("insertionSort") {
+    val r = insertionSort(List(3, 1, 2, 4, 0))
+    assert(r == List(0, 1, 2, 3, 4))
+  }
 }

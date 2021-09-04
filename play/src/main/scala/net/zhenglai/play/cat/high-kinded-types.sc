@@ -1,3 +1,5 @@
+import cats.Foldable
+import cats.syntax.NestedFoldableOps
 // The bread and butter of everyday functional programming is the implementation of standard functional combinators for
 // your datatypes.
 // For example, fluency with the flatMap combinator, also known as >>=, is very important.
@@ -80,3 +82,13 @@ def tupleF3[F[_], A, B](x: F[A], y: F[B])
 // We can remove the implicit F argument, replacing it with a context bound F[_]: Monad in the type argument list.
 def tupleF4[F[_]: Monad, A, B](x: F[A], y: F[B]): F[(A, B)]
   = implicitly[Monad[F]].flatMap(x)(a => implicitly[Monad[F]].map(y)(a -> _))
+
+// What's the point of passing an implicit parameter in a context bound but not naming it?
+// Often, the implicit parameter need not be referred to directly, it will be tunneled through as an implicit argument
+// to another method that is called.
+//trait FoldableSyntax {
+//  implicit def catsSyntaxNestedFoldable
+//  [F[_]: Foldable, G[_], A]
+//  (fga: F[G[A]]): NestedFoldableOps[F, G, A] =
+//    new NestedFoldableOps[F, G, A](fga)
+//}
