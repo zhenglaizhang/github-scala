@@ -74,6 +74,6 @@ class CoolTest extends FunSuite {
 
   test("insertionSort") {
     val r = insertionSort(List(3, 1, 2, 4, 0))
-    assert(r == List(0, 1, 2, 3, 4))
+    assert(r == List(0, 1, 2, 3, 4).reverse)
   }
 }
