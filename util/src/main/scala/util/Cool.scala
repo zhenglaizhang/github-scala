@@ -69,4 +69,11 @@ object Cool {
       case n => m.flatMap { _ => loopM(m, n - 1) }
     }
   }
+
+  def insertionSort[A: Ordering](xs: List[A]): List[A] =
+    xs.foldLeft(List.empty[A]) { (r, c) =>
+      val ord = implicitly[Ordering[A]]
+      val (front, back) = r.partition(ord.lt(c, _))
+      front ::: c :: back
+    }
 }
