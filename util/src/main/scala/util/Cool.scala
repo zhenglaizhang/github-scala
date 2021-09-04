@@ -6,6 +6,7 @@ import cats.syntax.functor._
 import cats.syntax.semigroup._
 import cats.{Monad, Monoid, Semigroupal}
 
+import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -76,4 +77,18 @@ object Cool {
       val (front, back) = r.partition(ord.lt(c, _))
       front ::: c :: back
     }
+
+  def factorial(i: Int): BigInt = {
+    // compiler will convert tail call optimization to loop
+    @tailrec
+    def fact(i: Int, acc: BigInt): BigInt = {
+      if (i <= 1) {
+        acc
+      } else {
+        // tail recursive
+        fact(i - 1, acc * i)
+      }
+    }
+    fact(i, BigInt(1))
+  }
 }
