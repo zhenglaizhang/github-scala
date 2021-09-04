@@ -104,7 +104,6 @@ lazy val play = (project in file("play"))
       "org.scalatest" %% "scalatest" % "3.0.8" % Test,
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.4",
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.12.4"
-
     )
   )
 

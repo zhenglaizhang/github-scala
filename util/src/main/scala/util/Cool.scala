@@ -6,6 +6,7 @@ import cats.syntax.functor._
 import cats.syntax.semigroup._
 import cats.{Monad, Monoid, Semigroupal}
 
+import scala.annotation.tailrec
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
@@ -58,5 +59,36 @@ object Cool {
       .toVector
       .traverse(group => Future(group.foldMap(func)))
       .map(_.combineAll)
+  }
+
+  def stackDepth: Int = Thread.currentThread().getStackTrace.length
+
+  def loopM[M[_]: Monad](m: M[Int], count: Int): M[Int] = {
+    println(s"Stack depth: $stackDepth")
+    count match {
+      case 0 => m
+      case n => m.flatMap { _ => loopM(m, n - 1) }
+    }
+  }
+
+  def insertionSort[A: Ordering](xs: List[A]): List[A] =
+    xs.foldLeft(List.empty[A]) { (r, c) =>
+      val ord = implicitly[Ordering[A]]
+      val (front, back) = r.partition(ord.lt(c, _))
+      front ::: c :: back
+    }
+
+  def factorial(i: Int): BigInt = {
+    // compiler will convert tail call optimization to loop
+    @tailrec
+    def fact(i: Int, acc: BigInt): BigInt = {
+      if (i <= 1) {
+        acc
+      } else {
+        // tail recursive
+        fact(i - 1, acc * i)
+      }
+    }
+    fact(i, BigInt(1))
   }
 }

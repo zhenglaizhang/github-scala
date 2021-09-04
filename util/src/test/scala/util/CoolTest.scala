@@ -1,9 +1,16 @@
 package net.zhenglai
 package util
 
-import util.Cool.{FunChainable, concatString, parallelFoldMap}
+import util.Cool.{
+  FunChainable,
+  concatString,
+  factorial,
+  insertionSort,
+  loopM,
+  parallelFoldMap
+}
 
-import cats.Id
+import cats.{Eval, Id}
 import org.scalatest.FunSuite
 import org.scalatest.time.SpanSugar.convertIntToGrainOfTime
 
@@ -54,4 +61,25 @@ class CoolTest extends FunSuite {
     println(y)
   }
 
+  test("loopM stack depth slowly increases") {
+    import cats.syntax.option._
+    val x = loopM(1.some, 3)
+    println(x)
+
+  }
+
+  test("loopM stack depth is constant") {
+    val y = loopM(Eval.now(1), 2).value
+    println(y)
+  }
+
+  test("insertionSort") {
+    val r = insertionSort(List(3, 1, 2, 4, 0))
+    assert(r == List(0, 1, 2, 3, 4).reverse)
+  }
+
+  test("factorial") {
+    val r = factorial(5)
+    assert(r == BigInt(120))
+  }
 }
