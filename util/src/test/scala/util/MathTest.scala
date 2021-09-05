@@ -5,6 +5,8 @@ import util.Math.squareRoot
 
 import org.scalatest.FunSuite
 
+import java.util.Scanner
+
 class MathTest extends FunSuite {
 
   test("testSquareRoot") {
@@ -18,6 +20,28 @@ class MathTest extends FunSuite {
     }
     val f = squareRoot.orElse(square)
     assert(f.isDefinedAt(-1) === true)
+  }
+
+  test("Mean.calc") {
+    import net.zhenglai.util.Math.Mean._
+    assert(calc(1.2, 1.3, 1.2, 1.3) == 1.25)
+    assert(calc(Seq(1.2, 1.0, 1.2, 1.0)) == 1.1)
+    // calc(Nil) // NaN
+  }
+
+  test("wow, match identifier from java") {
+    val input = "1 fish 2 fish red fish blue fish"
+    val s = new Scanner(input).useDelimiter("\\s*fish\\s*")
+    try {
+      // surround with single back quotes (backticks)
+      s.`match`()
+    } catch {
+      case _: IllegalStateException => println("not matched")
+    }
+    assert(s.nextInt == 1)
+    assert(s.nextInt == 2)
+    assert(s.next == "red")
+    assert(s.next == "blue")
   }
 
 }
