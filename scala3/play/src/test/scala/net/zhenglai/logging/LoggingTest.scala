@@ -1,6 +1,6 @@
 package net.zhenglai
 package logging
-import org.scalatest.FunSuite
+//import org.scalatest.FunSuite
 
 import scala.util.Random
 
@@ -15,12 +15,19 @@ case class LoggedService(name: String, level: Level) extends Service(name) with 
     result
 }
 
-class LoggingTest extends FunSuite {
-
-  test("loggingService") {
-    val svc = LoggedService("two", Level.Info)
-    (1 to 3).foreach {i =>
-      println(s"Result: ${svc.work(i)}")
-    }
+@main def test() = {
+  val svc = LoggedService("two", Level.Info)
+  (1 to 3).foreach {i =>
+    println(s"Result: ${svc.work(i)}")
   }
 }
+
+//class LoggingTest extends FunSuite {
+//
+//  test("loggingService") {
+//    val svc = LoggedService("two", Level.Info)
+//    (1 to 3).foreach {i =>
+//      println(s"Result: ${svc.work(i)}")
+//    }
+//  }
+//}
