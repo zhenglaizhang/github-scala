@@ -1,5 +1,5 @@
 package net.zhenglai
-package types
+package types.control
 
 import scala.language.reflectiveCalls
 import scala.util.control.NonFatal
