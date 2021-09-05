@@ -112,6 +112,7 @@ lazy val scala3Play = (project in file("scala3/play"))
   .settings(
     commonSettings(scala3Version),
     libraryDependencies ++= Seq(
+      "org.scalatest" %% "scalatest" % "3.0.8" % Test
     )
   )
 
