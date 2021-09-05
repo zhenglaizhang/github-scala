@@ -32,7 +32,7 @@ enum WeekDay(val fullName: String):
 import WeekDay.*
 val sorted = WeekDay.values.sortBy(_.ordinal).toSeq
 
-WeekDay.values
+WeekDay.values   // Array[WeekDay] java mutable and no good equals
 Sun.ordinal
 Sun.fullName
 Sun.isWorkingDay
