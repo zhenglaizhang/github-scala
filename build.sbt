@@ -23,7 +23,7 @@ def commonScalacOpts(scalaVersion: String) =
     case Some((3, _)) =>
       Seq(
         // "-unchecked"
-        // "-source:3.0-migration"
+        "-source:future"
       )
     case _ =>
       Seq(
@@ -112,7 +112,7 @@ lazy val scala3Play = (project in file("scala3/play"))
   .settings(
     commonSettings(scala3Version),
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.8" % Test
+      "org.scalatest" %% "scalatest" % "3.2.9" % Test
     )
   )
 
