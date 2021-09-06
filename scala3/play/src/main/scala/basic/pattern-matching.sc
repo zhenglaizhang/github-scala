@@ -46,3 +46,24 @@ catalog map {
   case MagazineExtractorRE(title, author) => s"""Magine "$title" written by $author """
   case entry => s"Unrecognized entry: $entry"
 } foreach println
+
+// matching on interpolated strings
+catalog map {
+  case s"""Book: title=$t, author=$a""" => ("Book" -> (t -> a))
+  case s"""Magazine: title=$t, issue=$i""" => ("Magazine" -> (t -> i))
+  case item => ("Unrecognized", item)
+} foreach println
+
+// pattern bindings
+case class Address(street: String, city: String, country: String)
+case class Person(name: String, age: Int, address: Address)
+val addr = Address("1 Scala Way", "CA", "USA")
+val dean = Person("Dean", 29, addr)
+
+val Person(name, age, Address(_, state, _)) = dean
+val nas =
+  for
+    Person(name, age, Address( _, state, _)) <- Some(dean)
+  yield (name, age, state)
+
+
