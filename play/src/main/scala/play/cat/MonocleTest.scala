@@ -7,7 +7,8 @@ class MonocleTest {
     val user = User("uname", 12, Address("high", 2))
     val newUser = user.focus(_.address.streetName).modify(_.toUpperCase)
     println(newUser)
-    user.focus(_.address.streetName).get
+    val x = user.focus(_.address.streetName).get
+    println(x)
   }
 
 }

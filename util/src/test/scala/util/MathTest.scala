@@ -19,7 +19,7 @@ class MathTest extends FunSuite {
       case a if a < 0 => java.lang.Math.pow(a, 2)
     }
     val f = squareRoot.orElse(square)
-    assert(f.isDefinedAt(-1) === true)
+    assert(f.isDefinedAt(-1))
   }
 
   test("Mean.calc") {
