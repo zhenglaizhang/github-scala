@@ -32,3 +32,17 @@ tuples map {
 }
 
 tuples map (_+_+_)
+
+// match on regular expressions
+val BookExtractorRE = """Book: title=([^,]+),\s+author=(.+)""".r
+val MagazineExtractorRE = """Magazine: title=([^,]+),\s+issue=(.+)""".r
+val catalog = Seq(
+  "Book: title=Programming Scala Third Edition, author=Dean Wampler",
+  "Magazine: title=The New Yorker, issue=January 2021",
+  "Unknown: text=Who put this here??"
+)
+catalog map {
+  case BookExtractorRE(title, author) => s"""Book "$title" written by $author"""
+  case MagazineExtractorRE(title, author) => s"""Magine "$title" written by $author """
+  case entry => s"Unrecognized entry: $entry"
+} foreach println
