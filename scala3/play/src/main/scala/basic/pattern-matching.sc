@@ -67,3 +67,17 @@ val nas =
   yield (name, age, state)
 
 
+def stats(): (Int, Double, Double, Double, Double) = (1, 1.1, 1,2,1,3,1.4)
+val (count, sum, avg, min, max) = stats()
+
+val str = """Book: "Programming Scala", by Dean Wampler"""
+val s"""Book: "$title", by $author""" = str: @unchecked
+assert(title == "Programming Scala")
+assert(author == "Dean Wampler")
+
+// Pattern bindings will throw MatchError when match fails
+// add @unchecked if know the declaration is safe and match is exhaustive
+val h4a +: h4b +: t4 = Seq(1, 2, 3, 4) : @unchecked
+
+// MatchError
+// val h4a +: h4b +: t4 = Seq(1 ) : @unchecked
