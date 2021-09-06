@@ -57,7 +57,8 @@ object MonadErrorTest {
     exn.raiseError[Try, Int]
 
     // MonadError[Future, A]
-    exn.raiseError[Future, Int]
+    val x = exn.raiseError[Future, Int]
+    println(x)
   }
 }
 
@@ -97,7 +98,8 @@ object EitherRightBiased {
     Either.catchNonFatal(sys.error("badness"))
     Either.fromTry(Try("foo".toInt))
     Either.fromOption[String, Int](None, "badness")
-    Either.unit
+    val x = Either.unit
+    println(x)
   }
 
 }

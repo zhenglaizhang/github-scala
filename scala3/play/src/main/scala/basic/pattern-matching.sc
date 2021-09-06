@@ -1,7 +1,5 @@
-val iarray = IArray(1, 2, 3, 4, 5)
-iarray match
-  case a: Array[Int] => a(2) = 300
-// a hole
-iarray
+def seqToString[A](xs: Seq[A]): String = xs match
+  case head +: tail => s"($head +: ${seqToString(tail)})"
+  case Nil => "Nil"
 
-// pattern matching can only occur on values of type Matchable, not Any
+seqToString(List(1, "two", 3, 4.4))
