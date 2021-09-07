@@ -79,5 +79,25 @@ assert(author == "Dean Wampler")
 // add @unchecked if know the declaration is safe and match is exhaustive
 val h4a +: h4b +: t4 = Seq(1, 2, 3, 4) : @unchecked
 
-// MatchError
+// MatchError at runtime
 // val h4a +: h4b +: t4 = Seq(1 ) : @unchecked
+
+// In for comprehension, matching that isn't exhaustive functions as a FILTER
+val xs = Seq((1,2), "hello", ("one", "two"))
+for
+  case (x, y) <- xs
+yield (x, y)
+
+for
+  case Some(x) <- Seq(Some(1), None, Some(2))
+yield x
+
+// Pattern matching and erasure
+def seqMatch[A](xs: Seq[A]): String = xs match
+  case Nil => "unknown"
+  case head +: _ => head match
+    case _: Double => "Double"
+    case _: String => "String"
+    case _ => "Others"
+
+seqMatch(Seq((1,2.1), Nil, Seq("a", "b"), Seq(1,2)))
