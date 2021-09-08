@@ -16,3 +16,10 @@ package basic
   // inefficient, a copy of the collection has to be constructed if the Seq is not a vector
   Seq(1, 2, 3).toVector
 }
+
+@main
+def map() = {
+  val m = Map("one" -> 1, "two" -> 2)
+  m + ("three" -> 3)
+  m ++ Seq("four" -> 4)
+}
