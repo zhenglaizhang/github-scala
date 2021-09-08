@@ -23,3 +23,10 @@ def map() = {
   m + ("three" -> 3)
   m ++ Seq("four" -> 4)
 }
+
+@main
+def set() = {
+  val s = Set("one", "two", "one")
+  s + "three"
+  s ++ Seq("three", "four")
+}
