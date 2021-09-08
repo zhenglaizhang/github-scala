@@ -35,4 +35,21 @@ def tuple(): Unit = {
   ft3(1.1, 1.2)
 }
 
+@main
+def lift(): Unit = {
+  val pf: PartialFunction[String, String] = {
+    case "hello" => "HELLO"
+  }
+  pf("hello")
+
+  // pf("boom")
+  // MatchError
+
+  val pfTotal = pf.lift
+  assert(pfTotal("boom") == None)
+  val pf1 = Function.unlift(pfTotal)
+  // pf1("other")
+  // MatchError
+}
+
 
