@@ -7,7 +7,7 @@ import scala.util.Random
 open class Service(name: String):
   def work(i: Int): (Int, Int) = (i, Random.between(0, 1000))
 
-case class LoggedService(name: String, level: Level) extends Service(name) with StdoutLogging {
+case class LoggedService(name: String, level: Level) extends Service(name) with ConsoleLogging {
   override def work(i : Int) : (Int, Int)  =
     info(s"Starting work: i = $i")
     val result = super.work ( i )

@@ -6,6 +6,7 @@ enum Level:
   def ==(that: Level): Boolean = this.ordinal == that.ordinal
   def >=(that: Level): Boolean = this.ordinal >= that.ordinal
 
+// mixin trait
 trait Logging {
   import Level.*
   def level: Level
@@ -18,7 +19,7 @@ trait Logging {
     if level >= Error then log(Error, message)
 }
 
-trait StdoutLogging extends Logging {
+trait ConsoleLogging extends Logging {
   import Level.*
   override def log(level : Level, message : String) : Unit = {
     val s = s"${level.toString.toUpperCase}: $message"
