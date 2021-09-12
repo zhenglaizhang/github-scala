@@ -53,5 +53,5 @@ trait WithFilter[A, M[_]] {
 }
 
 @main def validated() = {
-  // todo
+
 }
