@@ -1,6 +1,8 @@
 package net.zhenglai
 package basic
 
+import scala.annotation.targetName
+
 trait Good:
   def x(suffix: String): String
   val x: String
@@ -13,11 +15,21 @@ class Name2(s: String):
   def value: String = _value
   def value_=(newValue: String): Unit = _value = newValue
 
+
+
+
+
+case class Complex(real: Double, imag: Double):
+  @targetName("negate") def unary_- : Complex = Complex(-real, imag)
+  @targetName("minus") def -(other: Complex) = Complex(real - other.real, imag - other.imag)
+
 @main def v() = {
   val n = Name2("abc")
   n.value = "cde"
   println(n.value)
   n.value_=("fgh")
   println(n.value)
-}
 
+  val c = Complex(1.1, 2.2)
+  println(-c)
+}
