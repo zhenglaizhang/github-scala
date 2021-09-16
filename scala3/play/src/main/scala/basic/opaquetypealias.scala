@@ -35,7 +35,7 @@ case class Salary(gross: Dollars, taxes: Percentage):
   def net: Dollars = gross - (gross * taxes)
 
 
-@main def // matchable() = {
+@main def matchableAndOP() = {
   object Obj:
     type Arr[A] = Array[A]
     opaque type OArr[A] = Array[A]
@@ -43,7 +43,7 @@ case class Salary(gross: Dollars, taxes: Percentage):
 
 
   summon[Obj.Arr[Int] <:< Matchable]
-  summon[Obj.OArr[Int] <:< Matchable]
+  // summon[Obj.OArr[Int] <:< Matchable]
   // Cannot prove that Obj.OArr[Int] <:< Matchable.
   // OArr is considered abstract outside of Obj
 }
