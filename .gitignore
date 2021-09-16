@@ -100,3 +100,6 @@ project/metals.sbt
 .idea
 .vscode
 .java-version
+.DS_Store
+*/.DS_Store
+.DS_Store

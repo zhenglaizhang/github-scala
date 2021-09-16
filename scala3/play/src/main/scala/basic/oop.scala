@@ -21,4 +21,3 @@ class Name2(s: String):
   println(n.value)
 }
 
-

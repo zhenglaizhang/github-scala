@@ -9,8 +9,8 @@ lazy val scala3Version = "3.0.1"
 
 def commonScalacOpts(scalaVersion: String) =
   Seq(
-//    "-encoding",
-//    "UTF-8",
+    //    "-encoding",
+    //    "UTF-8",
     "-unchecked",
     "-deprecation",
     "-feature",
@@ -70,7 +70,8 @@ lazy val core = (project in file("core"))
       "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
       "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
       "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
-      "org.scalatest" %% "scalatest" % "3.0.8" % Test
+      "org.scalatest" %% "scalatest" % "3.0.8" % Test,
+      "io.swagger.parser.v3" % "swagger-parser" % "2.0.27"
     )
   )
 
