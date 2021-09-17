@@ -24,7 +24,7 @@ object matchable {
       case other  => s"Other: $other"
     }
 
-  @main def test() = {
+  @main def testmat() = {
     // Seq[Any] wont compile
     val xs: Seq[Matchable] = Seq(1, "two", 3, 4.4)
     val mxs: Seq[String] = examine(xs)
