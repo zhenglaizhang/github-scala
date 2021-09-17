@@ -15,7 +15,12 @@ class Name2(s: String):
   def value: String = _value
   def value_=(newValue: String): Unit = _value = newValue
 
+class Invariant[A](var mut: A)
+// class Covariant[+A](var mut: A)
+// covariant type A occurs in contravariant position in type A of parameter mut_=
 
+// class Contravariant[-A](var mut: A)
+// contravariant type A occurs in covariant position in type A of variable mut
 
 
 
