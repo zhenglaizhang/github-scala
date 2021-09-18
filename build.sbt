@@ -23,7 +23,8 @@ def commonScalacOpts(scalaVersion: String) =
     case Some((3, _)) =>
       Seq(
         // "-unchecked"
-        "-source:future"
+        "-source:future",
+        "-Ysafe-init"
       )
     case _ =>
       Seq(
