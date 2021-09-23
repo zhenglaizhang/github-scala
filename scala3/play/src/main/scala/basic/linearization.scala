@@ -30,10 +30,34 @@ class C3B extends C2 with T3 with T2 with T1:
   str = str + " C3B"
   override def m(): String = "C3B " + super.m()
 
-
 @main def line() = {
   val c3a = new C3A
   val c3b = new C3B
   println ( c3a.str ) //
   println ( c3b.str ) //
 }
+
+trait T5:
+  val name = "T5"
+  var count = 0
+
+class ClassT5 extends T5:
+  override val name = "ClassT5" // override keyword is required
+  count = 1 // assignment
+
+@main def overrideconcrete() = {
+  val c = ClassT5()
+  println ( c.name )
+  println ( c.count )
+}
+
+trait Alarm:
+  val panicLevel: String = Alarm.DEFAULT_PANIC_LEVEL
+
+object Alarm:
+  val DEFAULT_PANIC_LEVEL = "PANIC!!"
+
+// or
+trait AlarmBetter(val panicLevel: String = Alarm.DEFAULT_PANIC_LEVEL)
+class CustomAlarm1 extends AlarmBetter("WOW")
+class DefaultAlarm extends AlarmBetter()
