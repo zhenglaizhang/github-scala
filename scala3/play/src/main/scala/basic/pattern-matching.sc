@@ -1,5 +1,7 @@
 import java.io.IOException
 
+// quick decomposition of data
+
 val countingList = List(1, 2, 3, 4)
 // list extractors
 countingList match {
