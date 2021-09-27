@@ -1,3 +1,4 @@
+// todo: understand more
 // Quickly recap
 //  - Scala types belong to kinds. Think of kinds as types of types.
 //  - Plain types like Int, String or your own non-generic classes belong to the value-level kind — the ones you can attach to values.
