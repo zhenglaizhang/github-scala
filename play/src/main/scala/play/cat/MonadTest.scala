@@ -1,28 +1,53 @@
 package net.zhenglai
 package play.cat
 
-import cats.MonadError
+import cats.{Monad, MonadError}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try
 
+object fundamental {
+  import cats.instances.list._
+  // List, Options, Try, IO all share the same properties:
+  //  - the ability to "construct" an instance of this type out of a plain value
+  //  - the ability to transform wrapped values through functions
+  //  - the ability to chain computations through functions that take a value and return a new wrapper type
+  def main(args: Array[String]): Unit = {
+    println(combine(List("a", "b", "c"))(List(1, 2, 3)))
+  }
+
+  def combine[M[_]: Monad](str: M[String])(num: M[Int])(implicit
+      monad: Monad[M]
+  ): M[(String, Int)] = monad.flatMap(str)(s => monad.map(num)(n => (s, n)))
+// todo use short for comprehension
+//    for {
+//      s <- str
+//      n <- num
+//    } yield (s, n)
+
+}
+
 object MonadDef {
   trait Functor[F[_]] {
+    // transforming an instance to another type of instance through a function, i.e. a map
     def map[A, B](a: F[A])(f: A => B): F[B]
   }
 
   trait FlatMap[F[_]] {
+    // chaining the computation of instances based on dependent plain values, i.e. a flatMap
     def flatMap[A, B](a: F[A])(f: A => F[B]): F[B]
   }
 
   trait Applicative[F[_]] extends Functor[F] {
+    // creating an instance of this magical data type (whatever the type is) out of a plain value
     def pure[A](a: A): F[A]
   }
 
   trait Monad[F[_]] extends FlatMap[F] with Applicative[F] {
-    def map[A, B](a: F[A])(f: A => B): F[B] =
-      flatMap(a)(f.andThen(pure))
+    // for free
+    def map[A, B](fa: F[A])(f: A => B): F[B] =
+      flatMap(fa)(a => pure(f(a)))
   }
 
   trait ApplicativeError[F[_], B] extends Applicative[F]
