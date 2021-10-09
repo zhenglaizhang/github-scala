@@ -1,9 +1,12 @@
 package net.zhenglai
 package basic
 
-// ref: https://blog.rockthejvm.com/type-level-programming-part-1/#3-the-compiler-validates
+// ref: https://blog.rockthejvm.com/type-level-programming-part-1/
+// ref: https://blog.rockthejvm.com/type-level-programming-part-2/
+// ref: https://blog.rockthejvm.com/type-level-programming-part-3/
 
-// Use the power of the Scala compiler to solve problems for you and to validate properties of types
+// Use the power of the Scala compiler to validate complex relationships between types that mean something special to us,
+// for example that a “number” (as a type) is “smaller than” another “number”.
 object TypeLevelProgramming {
   import scala.reflect.runtime.universe.*
   def show[A](value: A)(implicit tag: TypeTag[A]) =
@@ -50,6 +53,16 @@ object <= {
   implicit def indutive[A <: Nat, B <: Nat](implicit lte: <=[A, B]): <=[Succ[A], Succ[B]] = new <=[Succ[A], Succ[B]]{}
 }
 
+// Adding “Numbers” as Types
+trait +[A <: Nat, B <: Nat, S <: Nat] // A + B => S
+
+object + {
+  def apply[A <: Nat, B <: Nat, S <: Nat](implicit plus: +[A, B, S]): +[A, B, S] = plus
+  implicit val zero: +[_0, _0, _0] = new +[_0, _0, _0] {}
+  implicit def basicRight[A <: Nat](implicit lt: _0 < A): +[_0, A, A] = new +[_0, A, A] {}
+  implicit def basicLeft[A <: Nat](implicit lt: _0 < A): +[A, _0, A] = new +[A, _0, A] {}
+}
+
 @main def testTLP(): Unit = {
   val someComparison: _2 < _3 = ???
 }
@@ -57,4 +70,10 @@ object <= {
 @main def testLessThan(): Unit = {
   val validCmparison: _2 < _3 = <[_2, _3]
   // val invalidComparison: _3 < _2 = <[_3, _2]
+}
+
+@main def testAdding(): Unit = {
+  // TODO: complete this
+  // val four: +[_1, _3, _4] = +[_1, _3, _4]
+  // val invalidFive: +[_3, _1, _5] = +[_3, _1, _5]
 }

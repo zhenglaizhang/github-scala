@@ -47,7 +47,7 @@ def commonSettings(scalaV: String) =
   )
 
 lazy val root = (project in file("."))
-  .aggregate(util, core)
+  .aggregate(util, core, service, rtbCore, play, scala3Play)
   .settings(
     name := "github-scala"
   )
@@ -102,6 +102,7 @@ lazy val play = (project in file("play"))
   .settings(
     commonSettings(scala2Version),
     libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "eu.timepit" %% "refined" % "0.9.27",
       "org.typelevel" %% "cats-core" % "2.6.1",
       "org.json4s" %% "json4s-native" % "4.0.3",
