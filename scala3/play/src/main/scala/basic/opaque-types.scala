@@ -22,7 +22,7 @@ object SocialNetwork {
   }
 
   object Name {
-    def fromString(s: String): Option[Name] = 
+    def fromString(s: String): scala.Option[Name] =
       if (s.isEmpty || s.charAt(0).isLower) None else Some(s)
   }
 }
@@ -33,7 +33,7 @@ object SocialNetwork {
 @main def testopaque(): Unit = {
   import SocialNetwork.*
   // val name: Name = "hello"
-  val name: Option[Name] = Name.fromString("hello")
+  val name: scala.Option[Name] = Name.fromString("hello")
   name.map(_.length)
 }
 

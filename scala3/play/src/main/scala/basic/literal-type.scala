@@ -10,13 +10,13 @@ object literal {
 
   // String is a reference type,
   // String interning happens automatically for String literals
-  val scala: "Scala" = "Scala"
+  val scalas: "Scala" = "Scala"
   val pi: 3.14 = 3.14
   val truth: true = true
 
   // Literal types are used to enforce compile-time checks
   // to your definitions so that you don’t go reckless with your code
-  def meow(meaning: Option[42]): Unit =
+  def meow(meaning: scala.Option[42]): Unit =
     meaning.foreach(x => "I am exactly 42")
   // only 2 possible call parameters:
   meow(Some(42))
