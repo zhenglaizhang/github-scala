@@ -31,7 +31,10 @@ object PartiallyAppliedFunctionEtaExpansion {
 
   // compiler will think you try to call your increMethod, which requires arguments
   // val incrementF = incrMethod
-  val incrF = incrMethod _
+  // The syntax `<function> _` is no longer supported;
+  //  you can simply leave out the trailing ` _`
+  // val incrF = incrMethod _
+  val incrF = incrMethod
   // The underscore at the end is a signal for the compiler that you want to turn the method into a function value,
   // This conversion is called eta-expansion, and the compiler will generate a piece of code that will look something like
   val incrFInternal = (x: Int) => incrMethod(x)
@@ -42,20 +45,20 @@ object PartiallyAppliedFunctionEtaExpansion {
 
   def add(x: Int, y: Int): Int = x + y
   // The eta-expanded function value (lambda)
-  val addF: (Int, Int) => Int = add _
+  // val addF: (Int, Int) => Int = add _
 }
 
 // Partially Applied Functions
 object PAF {
   def multiArgAdder(x: Int)(y: Int): Int = x + y
-  def add2 = multiArgAdder(2) _
+  def add2 = multiArgAdder(2) // _
   val three = add2(1)
   // The compiler can detect whether a value is expected to have a function type, and so it can automatically eta-expand a method for you
-  Lis(1, 2, 3).map(multiArgAdder(3)) // eta-expansion is done automatically
+  List(1, 2, 3).map(multiArgAdder(3)) // eta-expansion is done automatically
 
   def threeArgAdder(x: Int)(y: Int)(z: Int): Int = x + y + z
-  val wow: Int => Int => Int = threeArgAdder(2) _
+  val wow: Int => Int => Int = threeArgAdder(2) // _
   val ten = wow(3)(5)
 
-  val oneArgRemaining: Int => Int = threeArgAdder(2)(3) _
+  val oneArgRemaining: Int => Int = threeArgAdder(2)(3) // _
 }
