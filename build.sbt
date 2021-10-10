@@ -1,3 +1,5 @@
+import sbt.Keys.libraryDependencies
+
 val AkkaVersion = "2.6.8"
 val AkkaHttpVersion = "10.2.6"
 
@@ -47,7 +49,7 @@ def commonSettings(scalaV: String) =
   )
 
 lazy val root = (project in file("."))
-  .aggregate(util, core, service, rtbCore, play, scala3Play)
+  .aggregate(util, core, service, rtbCore, play, scala3Play, playZio)
   .settings(
     name := "github-scala"
   )
@@ -97,7 +99,18 @@ lazy val rtbCore = (project in file("rtb/core"))
     commonSettings(scala2Version)
   )
 
-lazy val play = (project in file("play"))
+lazy val playZio = (project in file("play/zio"))
+  .dependsOn(util % "compile->compile;test->test")
+  .settings(
+    commonSettings(scala2Version),
+    resolvers += Resolver.sonatypeRepo("snapshots"),
+    libraryDependencies ++= Seq(
+      "dev.zio" %% "zio" % "1.0.12",
+      "dev.zio" %% "zio-streams" % "1.0.12"
+    )
+  )
+
+lazy val play = (project in file("play/scala2"))
   .dependsOn(util % "compile->compile;test->test")
   .settings(
     commonSettings(scala2Version),
