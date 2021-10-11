@@ -131,6 +131,7 @@ lazy val scala3Play = (project in file("scala3/play"))
   .settings(
     commonSettings(scala3Version),
     libraryDependencies ++= Seq(
+      // "org.typelevel" %% "cats-core" % "2.6.1"
       // "dev.optics" %% "monocle-core"  % "3.0.0",
       // "org.scalatest" %% "scalatest" % "3.2.9" % Test
     )
