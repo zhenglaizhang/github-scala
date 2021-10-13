@@ -1,11 +1,11 @@
 package net.zhenglai
 package net.yao.json
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.collection.mutable
 
-class CollectionTest extends FunSuite {
+class CollectionTest extends AnyFunSuite {
 
   test("array") {
     //    val ints: Array[Int] = new Array[Int](5)

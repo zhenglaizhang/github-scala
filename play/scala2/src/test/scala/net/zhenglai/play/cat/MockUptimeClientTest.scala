@@ -2,13 +2,13 @@ package net.zhenglai
 package play.cat
 
 import cats.Id
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
 
-class MockUptimeClientTest extends FunSuite {
+class MockUptimeClientTest extends AnyFunSuite {
 
   test("testGetTotalUptime Sync") {
     val testUptimeClient = new MockUptimeClient(Map("a" -> 12, "b" -> 13))

@@ -120,7 +120,8 @@ lazy val play = (project in file("play/scala2"))
       "eu.timepit" %% "refined" % "0.9.27",
       "org.typelevel" %% "cats-core" % "2.6.1",
       "org.json4s" %% "json4s-native" % "4.0.3",
-      "org.scalatest" %% "scalatest" % "3.0.8" % Test,
+      "org.scalactic" %% "scalactic" % "3.2.10",
+      "org.scalatest" %% "scalatest" % "3.2.10" % Test,
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.12.4",
       "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.12.4"
     )

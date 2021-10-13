@@ -4,12 +4,12 @@ package net.yao.json
 import com.fasterxml.jackson.core.`type`.TypeReference
 import com.fasterxml.jackson.databind.{DeserializationFeature, ObjectMapper, PropertyNamingStrategies}
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.io.Source
 
 
-class PeopleTest extends FunSuite {
+class PeopleTest extends AnyFunSuite {
 
 
   //  val objectMapper = new ObjectMapper() with ScalaObjectMapper
