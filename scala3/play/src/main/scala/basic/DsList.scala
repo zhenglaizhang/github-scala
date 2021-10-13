@@ -17,8 +17,7 @@ package basic
   Seq(1, 2, 3).toVector
 }
 
-@main
-def map() = {
+@main def testMap() = {
   val m = Map("one" -> 1, "two" -> 2)
   m + ("three" -> 3)
   m ++ Seq("four" -> 4)

@@ -34,18 +34,3 @@ object MonoidTest {
     addAll(List(1, 2, 3, 4)).p()
   }
 }
-
-object MonoidTestDef {
-
-  trait Semigroup[A] {
-    def combine(x: A, y: A): A
-  }
-
-  trait Monoid[A] extends Semigroup[A] {
-    def empty: A
-  }
-
-  object Monoid {
-    def apply[A](implicit m: Monoid[A]): Monoid[A] = m
-  }
-}

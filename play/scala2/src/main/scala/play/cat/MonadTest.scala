@@ -28,38 +28,6 @@ object fundamental {
 
 }
 
-object MonadDef {
-  trait Functor[F[_]] {
-    // transforming an instance to another type of instance through a function, i.e. a map
-    def map[A, B](a: F[A])(f: A => B): F[B]
-  }
-
-  trait FlatMap[F[_]] {
-    // chaining the computation of instances based on dependent plain values, i.e. a flatMap
-    def flatMap[A, B](a: F[A])(f: A => F[B]): F[B]
-  }
-
-  trait Applicative[F[_]] extends Functor[F] {
-    // creating an instance of this magical data type (whatever the type is) out of a plain value
-    def pure[A](a: A): F[A]
-  }
-
-  trait Monad[F[_]] extends FlatMap[F] with Applicative[F] {
-    // for free
-    def map[A, B](fa: F[A])(f: A => B): F[B] =
-      flatMap(fa)(a => pure(f(a)))
-  }
-
-  trait ApplicativeError[F[_], B] extends Applicative[F]
-
-  trait MonadError[F[_], E] extends Applicative[F] {
-    def raiseError[A](e: E): F[A]
-    def handleErrorWith[A](fa: F[A])(f: E => F[A]): F[A]
-    def handleError[A](fa: F[A])(f: E => A): F[A]
-    def ensure[A](fa: F[A])(e: E)(f: A => Boolean): F[A]
-  }
-}
-
 object MonadErrorTest {
   def main(args: Array[String]): Unit = {
     // MonadError[Either, A]
