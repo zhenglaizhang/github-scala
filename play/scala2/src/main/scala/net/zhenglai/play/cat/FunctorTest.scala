@@ -6,7 +6,6 @@ import cats.Functor
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
-import scala.tools.nsc.doc.html.HtmlTags.{A, B}
 import scala.util.Random
 
 // Pure functional programming deals with immutable values,
@@ -35,7 +34,7 @@ object FunctorCool {
     }
   }
   def do10x[M[_]](ma : M[Int])(implicit functor : Functor[M]) : M[Int] = functor.map(ma)(_ * 10)
-  
+
   def main(args : Array[String]) : Unit = {
     val _ = do10x(List(1, 2, 3))
     val tree = Tree.branch(
@@ -85,7 +84,7 @@ class FutureNotRT {
     println(r2)
   }
 }
-class FunctorTest {
+object FunctorTest {
 
   import cats.instances.function._
   import cats.syntax.functor._

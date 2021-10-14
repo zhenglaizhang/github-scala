@@ -36,7 +36,7 @@ object rt_benefits {
   //  - A common pain in large codebasess is repeated code. With referentially transparent expressions, we can safely remove duplications
   //  - Referential transparency is basically a fancy term for “replaceable code”. Refactoring capabilities come for free in RT code
 
-  // Referential Transparency Benefit #2: Mental SpacePermalink
+  // Referential Transparency Benefit #2: Mental Space
   def sumN(n: Int): Int =
     if (n <= 0) 0
     else n + sumN(n - 1)
@@ -46,5 +46,7 @@ object rt_benefits {
 }
 
 // Pure functional programming works with values, functions and expressions while those expressions are pure, meaning they only compute values and do not “do” anything besides computing values.
-// Referential transparency describes the purity aspect of functional programming: only expressions that compute values and don’t produce side effects of interacting with the world in any way.
-// referential transparency is a powerful mental tool in our programmers’ arsenal mainly because of their practical utility: the ability to quickly inspect code, read, understand, reason about, change and deconstruct the meaning of our programs without altering it in any way
+//  - Referential transparency describes the purity aspect of functional programming: only expressions that compute
+//  values and don’t produce side effects of interacting with the world in any way.
+//  - Referential transparency is a powerful mental tool in our programmers’ arsenal mainly because of their practical
+//  utility: the ability to quickly inspect code, read, understand, reason about, change and deconstruct the meaning of our programs without altering it in any way
