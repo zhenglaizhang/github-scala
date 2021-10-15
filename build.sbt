@@ -115,6 +115,7 @@ lazy val play = (project in file("play/scala2"))
   .settings(
     commonSettings(scala2Version),
     libraryDependencies ++= Seq(
+      "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "io.estatico" %% "newtype" % "0.4.4",
       "eu.timepit" %% "refined" % "0.9.27",
