@@ -1,4 +1,6 @@
 package fp
+
+import fp.mw.Monad
 // ETW
 // Monads are types which take values and do something interesting to them by following a certain structure
 // 99% of the value of monads is in their structure
@@ -74,3 +76,44 @@ val doubler = (x: Int) => List(x, 2 * x)
 //which is what the two flatMaps do; in the right hand side we’re compressing the last 3 steps:
 //  - extract
 //  - transform & wrap & ETW
+
+
+
+// Another Take at Monads: A Way to Generalize Chained Computations
+object mw {
+  trait Monad[F[_]] {
+    // creating an instance of this magical data type (whatever the type is) out of a plain value
+    def pure[A](a: A): F[A]
+    // chaining the computation of instances based on dependent plain values, i.e. a flatMap
+    def flatMap[A, B](fa: F[A])(f: A => F[B]): F[B]
+    // transforming an instance to another type of instance through a function, i.e. a map
+    // our Monad type is a natural and direct descendant of the Functor type class.
+    def map[A, B](fa: F[A])(f: A => B): F[B] =
+      flatMap(fa)(a => pure(f(a)))
+  }
+
+  given monadList: Monad[List] with {
+    override def pure[A](a: A): List[A] = List(a)
+    override def flatMap[A, B](fa: List[A])(f: A => List[B]): List[B] = fa.flatMap(f)
+  }
+}
+
+def combine[F[_]](str: F[String])(num: F[Int])(using monad: Monad[F]) =
+  monad.flatMap(str)(s => monad.map(num)(n => (s, n)))
+// The Monad type class was driven, in this article, by the necessity to not duplicate any code.
+
+extension [F[_], A](fa: F[A])(using monad: Monad[F]) {
+  def map[B](f: A => B): F[B] = monad.map(fa)(f)
+  def flatMap[B](f: A => F[B]): F[B] = monad.flatMap(fa)(f)
+}
+// the M[_] : Monad means that we require the presence of a given Monad[M] in scope
+def combineV2[F[_]: Monad](str: F[String])(num: F[Int]): F[(String, Int)] =
+  for {
+    s <- str
+    n <- num
+  } yield (s, n)
+
+@main def testMonadMeow(): Unit = {
+  combine(List("a", "b", "c"))(List(1,2,3,4)) == combine(List("a", "b", "c"))(List(1,2,3,4)) // true
+  combineV2(List("a", "b", "c"))(List(1,2,3,4)) == combineV2(List("a", "b", "c"))(List(1,2,3,4)) // true
+}
