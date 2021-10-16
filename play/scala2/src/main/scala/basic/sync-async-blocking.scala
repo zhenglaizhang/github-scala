@@ -67,7 +67,7 @@ object async_nonblocking {
     Behaviors.same
   }
 
-  val promiseResolver = ActorSystem(
+  val promiseResolver: ActorSystem[(String, Promise[Int])] = ActorSystem(
     Behaviors.receiveMessage[(String, Promise[Int])] {
       case (msg, promise) =>
         promise.success(msg.length)

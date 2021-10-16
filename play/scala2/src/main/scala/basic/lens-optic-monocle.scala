@@ -90,7 +90,7 @@ object ComposeOptics {
   val brandCircleR = iconLens.andThen(shapeLens).andThen(circlePrism)
   val aBrand = BrandIdentity(Logo("red"), Icon("white", Circle(45)))
   val enlargeRadius = brandCircleR.modify(_ + 10)(aBrand)
-  // ^^ a new brand whose icon circle's radius is now 55
+  // ^^ a new brand whose icon circle.scala's radius is now 55
   val aTriangleBrand = BrandIdentity(Logo("yellow"), Icon("black", Triangle(3, 4, 5)))
   brandCircleR.modify(_ + 10)(aTriangleBrand)
   // ^^ doesn't do anything because the shape isn't a triangle, but the code is 100% safe

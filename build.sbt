@@ -1,5 +1,7 @@
 import sbt.Keys.libraryDependencies
 
+import scala.language.postfixOps
+
 val AkkaVersion = "2.6.8"
 val AkkaHttpVersion = "10.2.6"
 
@@ -110,12 +112,22 @@ lazy val playZio = (project in file("play/zio"))
     )
   )
 
+lazy val akkaHttpJsonSerializersVersion = "1.38.2"
 lazy val play = (project in file("play/scala2"))
   .dependsOn(util % "compile->compile;test->test")
   .settings(
     commonSettings(scala2Version),
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
+      "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+      "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+      "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion,
+
+      "de.heikoseeberger" %% "akka-http-circe" % akkaHttpJsonSerializersVersion,
+      "io.circe" %% "circe-core" % "0.14.1",
+      "io.circe" %% "circe-generic" % "0.14.1",
+      "io.circe" %% "circe-parser" % "0.14.1",
+      "de.heikoseeberger" %% "akka-http-jackson" % akkaHttpJsonSerializersVersion,
       "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       "io.estatico" %% "newtype" % "0.4.4",
       "eu.timepit" %% "refined" % "0.9.27",
