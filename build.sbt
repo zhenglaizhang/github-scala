@@ -112,6 +112,13 @@ lazy val playZio = (project in file("play/zio"))
     )
   )
 
+lazy val scala99 = (project in file("play/scala99"))
+  .dependsOn(util % "compile->compile;test->test")
+  .settings(
+    commonSettings(scala2Version),
+    resolvers += Resolver.sonatypeRepo("snapshots")
+  )
+
 lazy val akkaHttpJsonSerializersVersion = "1.38.2"
 lazy val play = (project in file("play/scala2"))
   .dependsOn(util % "compile->compile;test->test")
