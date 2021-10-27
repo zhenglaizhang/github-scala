@@ -1,3 +1,5 @@
+package net.zhenglai
+
 object p18 extends S99Data {
   // TODO: more
   def slice[A](from: Int, to: Int, xs: List[A]): List[A] =

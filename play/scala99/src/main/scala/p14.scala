@@ -1,3 +1,5 @@
+package net.zhenglai
+
 object p14 extends S99Data {
   def duplicate[A](xs: List[A]): List[A] = xs.foldRight(List.empty[A]) { (x, acc) =>
     x :: x :: acc

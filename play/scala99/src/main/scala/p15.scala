@@ -1,3 +1,5 @@
+package net.zhenglai
+
 object p15 extends S99Data {
   def duplicateN[A](n: Int, xs: List[A]): List[A] = xs.flatMap { x =>
     List.fill(n)(x)

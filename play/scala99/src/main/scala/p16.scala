@@ -1,3 +1,5 @@
+package net.zhenglai
+
 // TODO: fixme
 object p16 extends S99Data {
   def drop[A](n: Int, xs: List[A]): List[A] = {

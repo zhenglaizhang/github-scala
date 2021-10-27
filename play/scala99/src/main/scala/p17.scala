@@ -1,3 +1,5 @@
+package net.zhenglai
+
 // TODO: more
 object p17 extends S99Data {
   def split[A](n: Int, xs: List[A]): (List[A], List[A]) = (xs.take(3), xs.drop(3))

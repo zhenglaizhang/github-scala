@@ -1,3 +1,5 @@
+package net.zhenglai
+
 import scala.annotation.tailrec
 
 object p09 extends S99Data {

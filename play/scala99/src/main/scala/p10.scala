@@ -1,3 +1,5 @@
+package net.zhenglai
+
 object p10 extends S99Data {
   def encode[A](xs: List[A]): List[(Int, A)] = {
     if (xs.isEmpty) Nil
