@@ -4,6 +4,7 @@
 
 ## TODO
 
+- [ ] https://docs.scala-lang.org/tour/tour-of-scala.html
 - [ ] basic PAT auth
 - [ ] paging
 - [ ] paging & stream support
