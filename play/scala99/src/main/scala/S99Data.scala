@@ -7,5 +7,6 @@ trait S99Data {
     (4, Symbol("e")))
   val symbolList2 = List(Symbol("a"), Symbol("b"), Symbol("c"), Symbol("c"), Symbol("d"))
   val charList = List('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k')
+  var charAToFList = List('a', 'b', 'c', 'd', 'e', 'f')
   val abcdList = List('a', 'b', 'c', 'd')
 }

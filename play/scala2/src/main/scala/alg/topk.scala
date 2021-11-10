@@ -6,12 +6,15 @@ import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpMethods, HttpRequest}
 import akka.util.ByteString
+import cats.data.{NonEmptyList, Validated}
 import java.io.Closeable
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.io.Source
+import scala.util.matching.Regex
+import scala.util.{Failure, Success, Try}
 
-final case class Movie(id: String, rating: Int)
+final case class Movie(id: String, rating: Double)
 
 object using {
   def apply[A <: Closeable, B](s: => A)(f: A => B): B = {
@@ -26,22 +29,29 @@ object using {
 }
 
 object TopK {
-  val linePattern = "^(\\w+),(\\d+)$".r
+  val linePattern: Regex = """^([\w\s]+),([\d.]+)$""".r
+
+  def lineToMovieValidated(line: String): Validated[NonEmptyList[String], Movie] = {
+    line match {
+      case linePattern(id, rating) => {
+        val r = Try(rating.toDouble)
+        r match {
+          case Success(rat) => Validated.valid(Movie(id, rat))
+          case Failure(ex) => Validated.invalidNel(s"Parsing rating error: $ex, line: $line")
+        }
+      }
+      case _ => Validated.invalidNel(s"Parsing error: $line")
+    }
+  }
 
   def lineToMovie(line: String): Option[Movie] = {
     line match {
-      case linePattern(id, rating) => rating.toIntOption.map(Movie(id, _))
+      case linePattern(id, rating) => {
+        println("matched")
+        rating.toDoubleOption.map(Movie(id, _))
+      }
       case _ => None
     }
-    //    val matchOpt = linePattern.findFirstMatchIn(line)
-    //    println(matchOpt)
-    //    if (matchOpt.nonEmpty) {
-    //      matchOpt.map { m =>
-    //        Movie(m.group(1), m.group(2).toInt)
-    //      }
-    //    } else {
-    //      None
-    //    }
   }
 
   def topk1(file: String, k: Int): Seq[Movie] = {
@@ -76,15 +86,6 @@ object TopK {
     }
   }
 
-  def topk3(file: String, k: Int): Seq[Movie] = {
-    akka.stream.scaladsl.Source.fromIterator(() => Source.fromFile(file).getLines())
-      .drop(1)
-      .map(lineToMovie)
-      .filter(_.nonEmpty)
-      .map(_.get)
-    ???
-  }
-
   def topk4(url: String, k: Int): Seq[Movie] = {
     implicit val system = ActorSystem(Behaviors.empty, "topk4")
     implicit val ec = system.executionContext
@@ -102,9 +103,15 @@ object TopK {
   }
 
   def main(args: Array[String]): Unit = {
-    println(topk1("play/scala2/src/main/scala/alg/movies.csv", 3))
-    println(topk2("play/scala2/src/main/scala/alg/movies.csv", 3))
-    println(topk4("https://gist.githubusercontent" +
-      ".com/zhenglaizhang/e44992fbe1a6cdeeeed76186ea39aee5/raw/28ac065ffc7e328f0acda327999a642f5232be48/movies.csv", 3))
+    //    println(topk1("play/scala2/src/main/scala/alg/movies.csv", 3))
+    //    println(topk2("play/scala2/src/main/scala/alg/movies.csv", 3))
+    //    println(topk4("https://gist.githubusercontent" +
+    //      ".com/zhenglaizhang/e44992fbe1a6cdeeeed76186ea39aee5/raw/28ac065ffc7e328f0acda327999a642f5232be48/movies
+    //      .csv", 3))
+    val l = """hello abc,123.3"""
+    val m = linePattern.findAllMatchIn(l).toList
+    println(m)
+    val r = lineToMovie(l)
+    println(r)
   }
 }

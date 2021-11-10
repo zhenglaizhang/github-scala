@@ -9,6 +9,25 @@ sealed abstract class Tree[+A] {
   def addValue[B >: A](vaule: B)(implicit ev: Ordered[B]): Tree[B]
 }
 
+object Tree {
+  def cBalanced[A](n: Int, x: A): List[Tree[A]] = n match {
+    case n if n < 1 => List(End)
+    case n if n == 0 => List(Node(x))
+    case n if n % 2 == 1 => {
+      val subtrees = cBalanced(n / 2, x)
+      for {
+        l <- subtrees
+        r <- subtrees
+      } yield Node(x, l, r)
+    }
+    case n if n % 2 == 0 => {
+      val lessSub = cBalanced((n - 1) / 2, x)
+      val greatSub = cBalanced((n + 1) / 2, x)
+      lessSub.flatMap(l => greatSub.flatMap(g => List(Node(x, l, g), Node(x, g, l))))
+    }
+  }
+}
+
 case class Node[+A](value: A, left: Tree[A], right: Tree[A]) extends Tree[A] {
   override def toString: String = {
     "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
